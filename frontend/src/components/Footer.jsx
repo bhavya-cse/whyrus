@@ -1,17 +1,17 @@
 import React from 'react';
-import { ArrowRight, ShieldCheck, Terminal, Cpu } from 'lucide-react';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
+import Logo from './Logo';
 
 export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
   return (
-    <footer className="bg-[#17243A] text-white border-t border-[#273852]">
+    <footer className="bg-white text-[#111827] border-t border-[#E5E7EB]">
       
       {/* Final Call to Action Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 border-b border-[#273852]">
-        <div className="bg-[#1E2E48] rounded-2xl p-8 sm:p-12 border border-[#2D4366] flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 border-b border-[#E5E7EB]">
+        <div className="bg-[#111827] text-white rounded-md p-8 sm:p-12 border border-[#1F2937] flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-sm">
           
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center space-x-2 text-xs font-mono font-medium tracking-wider uppercase text-[#167D78] bg-[#167D78]/20 px-3 py-1 rounded border border-[#167D78]/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#167D78]"></span>
+            <div className="inline-flex items-center space-x-2 text-xs font-mono font-semibold tracking-wider uppercase text-[#111827] bg-[#8CE800] px-3 py-1 rounded-xs">
               <span>Ready for Forensic Clarity</span>
             </div>
 
@@ -19,7 +19,7 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
               Start with the evidence. Find your next step.
             </h2>
 
-            <p className="text-base text-[#94A3B8] leading-relaxed">
+            <p className="text-base text-[#D1D5DB] leading-relaxed">
               Bring your logs. Whyrus will help you investigate the failure without speculation or hallucinations.
             </p>
           </div>
@@ -27,9 +27,9 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
           <div className="shrink-0 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <button
               onClick={onOpenAnalyzer}
-              className="inline-flex items-center justify-center space-x-2.5 px-6 py-3.5 rounded font-medium text-white bg-[#167D78] hover:bg-[#126863] transition-all duration-150 shadow-lg shadow-[#167D78]/20 text-sm focus:ring-2 focus:ring-offset-2 focus:ring-[#167D78] focus:ring-offset-[#17243A]"
+              className="inline-flex items-center justify-center space-x-2.5 px-6 py-3.5 rounded-xs font-semibold text-xs uppercase tracking-wider text-[#111827] bg-[#8CE800] hover:bg-[#78D000] transition-all duration-150 shadow-xs focus:ring-2 focus:ring-offset-2 focus:ring-[#8CE800]"
             >
-              <span>Analyze an incident</span>
+              <span>Analyse an incident</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -43,58 +43,47 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
           
           {/* Brand Info (5 cols) */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-lg bg-[#167D78] flex items-center justify-center">
-                <div className="flex items-center space-x-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
-                  <span className="w-2 h-0.5 bg-white/70"></span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E5A34B]"></span>
-                </div>
-              </div>
-              <span className="font-heading font-extrabold text-xl tracking-tight text-white">
-                whyrus
-              </span>
-            </div>
+            <Logo variant="full" />
 
-            <p className="text-xs text-[#94A3B8] leading-relaxed max-w-sm">
+            <p className="text-xs text-[#4B5563] leading-relaxed max-w-sm pt-2">
               An evidence-led root-cause analysis platform for software engineers, DevOps teams, and students. 
-              Connecting logs, stack traces, and code changes into explainable forensic conclusions.
+              Connecting logs, errors, timelines, and code changes into explainable forensic conclusions.
             </p>
 
-            <div className="text-[11px] font-mono text-[#64748B]">
-              Product Tagline: “Understand the failure. Find the reason.”
+            <div className="text-[11px] font-mono text-[#6B7280]">
+              Product Tagline: “Find the cause. Restore confidence.”
             </div>
           </div>
 
           {/* Navigation Links (3 cols) */}
           <div className="md:col-span-3 space-y-3">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-white">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#111827]">
               Navigation
             </h3>
-            <ul className="space-y-2 text-xs text-[#94A3B8]">
+            <ul className="space-y-2 text-xs text-[#4B5563]">
               <li>
-                <button onClick={() => onNavigateSection('#product')} className="hover:text-white transition-colors">
-                  Product Overview
+                <button onClick={() => onNavigateSection('#overview')} className="hover:text-[#111827] transition-colors">
+                  Overview & Dilemma
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('#how-it-works')} className="hover:text-white transition-colors">
-                  Investigation Pipeline
+                <button onClick={() => onNavigateSection('#workflow')} className="hover:text-[#111827] transition-colors">
+                  Investigation Workflow
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('#demo')} className="hover:text-white transition-colors">
-                  Interactive Preview
+                <button onClick={() => onNavigateSection('#sample')} className="hover:text-[#111827] transition-colors">
+                  Sample Incident Preview
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('#capabilities')} className="hover:text-white transition-colors">
+                <button onClick={() => onNavigateSection('#capabilities')} className="hover:text-[#111827] transition-colors">
                   Core Capabilities
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigateSection('#trust')} className="hover:text-white transition-colors">
-                  Trust & Evidence Axioms
+                <button onClick={() => onNavigateSection('#trust')} className="hover:text-[#111827] transition-colors">
+                  Evidence & Trust Axioms
                 </button>
               </li>
             </ul>
@@ -102,28 +91,29 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
 
           {/* Architecture & Verification (4 cols) */}
           <div className="md:col-span-4 space-y-3">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-white">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#111827]">
               Architecture & Transparency
             </h3>
-            <p className="text-xs text-[#94A3B8] leading-relaxed">
-              Whyrus operates with a deterministic log parsing core and evidence-grounded synthesis via Google Gemini. 
-              No private credentials or source code are stored.
+            <p className="text-xs text-[#4B5563] leading-relaxed">
+              Whyrus operates with a deterministic log correlation engine and evidence-grounded AI synthesis. 
+              No private credentials or source code are retained.
             </p>
-            <div className="flex items-center space-x-2 text-xs font-mono text-[#167D78]">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Automated Secret Redaction Active</span>
+            <div className="flex items-center space-x-2 text-xs font-mono text-[#111827] pt-1 font-semibold">
+              <ShieldCheck className="w-4 h-4 text-[#8CE800]" />
+              <span>Automated Secret Scrubbing Active</span>
             </div>
           </div>
 
         </div>
 
         {/* Bottom Copyright */}
-        <div className="pt-12 mt-12 border-t border-[#273852] flex flex-col sm:flex-row items-center justify-between text-xs text-[#64748B] font-mono gap-4">
+        <div className="pt-12 mt-12 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between text-xs text-[#6B7280] font-mono gap-4">
           <div>
             © {new Date().getFullYear()} Whyrus Root-Cause Analysis Platform. All rights reserved.
           </div>
-          <div>
-            Honest engineering • Evidence before assumptions
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-[#8CE800]"></span>
+            <span>Evidence before assumptions</span>
           </div>
         </div>
 

@@ -1,0 +1,18 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Node.js
+node_modules/
+
+# Vite production build
+frontend/dist/
+
+# Operating system
+.DS_Store

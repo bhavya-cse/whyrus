@@ -1,85 +1,84 @@
 import React from 'react';
 import { 
   AlertOctagon, 
-  Search, 
-  GitCommit, 
-  Layers, 
-  CheckCircle2, 
   Compass, 
-  FileSpreadsheet,
-  Link2,
-  Cpu,
-  ArrowRight
+  Link2, 
+  Cpu, 
+  GitCommit, 
+  CheckCircle2, 
+  ArrowRight,
+  Split,
+  Layers
 } from 'lucide-react';
 
 export default function ProblemSolution({ onOpenAnalyzer }) {
   return (
-    <section id="product" className="py-20 lg:py-28 bg-[#F7F6F2] border-b border-[#E5E4DE]">
+    <section id="overview" className="py-20 lg:py-28 bg-white border-b border-[#E5E7EB]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Editorial Section Header */}
         <div className="max-w-3xl mb-16 space-y-4">
-          <div className="text-xs font-mono font-semibold uppercase tracking-wider text-[#167D78] flex items-center space-x-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#167D78]"></span>
-            <span>The Investigation Dilemma</span>
+          <div className="text-xs font-mono font-semibold uppercase tracking-wider text-[#111827] flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-[#8CE800]"></span>
+            <span>The Diagnostic Dilemma</span>
           </div>
           
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-[2.75rem] text-[#17243A] leading-[1.18] tracking-tight">
-            An error message tells you what happened. <br className="hidden sm:inline" />
-            <span className="text-[#167D78]">Not necessarily why.</span>
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-[2.75rem] text-[#111827] leading-[1.15] tracking-tight">
+            An error tells you what happened. <br />
+            <span className="text-[#4B5563]">Not why it failed.</span>
           </h2>
           
-          <p className="text-lg text-[#64748B] font-normal leading-relaxed">
-            Modern distributed applications fail across multiple layers simultaneously. 
-            A single root cause cascades into dozens of downstream alerts, leaving engineers to manually piece together fragments under pressure.
+          <p className="text-base sm:text-lg text-[#4B5563] font-normal leading-relaxed">
+            Modern distributed systems fail across multiple components simultaneously. 
+            A single upstream failure cascades into dozens of downstream alerts, leaving engineers to manually reassemble disparate clues under production pressure.
           </p>
         </div>
 
-        {/* Asymmetrical Editorial Composition: Problem vs Solution */}
+        {/* Asymmetrical 2-Column Editorial Grid: The Reality vs The Whyrus Approach */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* Left Column: The Fragmented Reality (5 cols) */}
-          <div className="lg:col-span-5 bg-white rounded-xl p-8 border border-[#E5E4DE] shadow-sm flex flex-col justify-between">
+          {/* Left Column: Fragmented Reality (5 cols) */}
+          <div className="lg:col-span-5 bg-[#FAFAF9] rounded-md p-8 border border-[#E5E7EB] flex flex-col justify-between">
             <div className="space-y-6">
               
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-[#C94C4C]/10 flex items-center justify-center text-[#C94C4C]">
+                <div className="w-8 h-8 rounded-xs bg-red-100 flex items-center justify-center text-red-700">
                   <AlertOctagon className="w-4 h-4" />
                 </div>
-                <h3 className="font-heading font-bold text-xl text-[#17243A]">
+                <h3 className="font-heading font-bold text-xl text-[#111827]">
                   The Reality of Incident Chaos
                 </h3>
               </div>
 
-              <div className="space-y-4 pt-2">
+              <div className="space-y-4 pt-1">
                 
-                <div className="p-3.5 rounded-lg bg-[#F7F6F2] border border-[#E5E4DE] space-y-1.5">
-                  <div className="flex items-center space-x-2 text-xs font-mono font-medium text-[#17243A]">
-                    <span className="w-2 h-2 rounded-full bg-[#C94C4C]"></span>
-                    <span>Scattered & Multi-Source Logs</span>
+                <div className="p-4 rounded-xs bg-white border border-[#E5E7EB] space-y-1">
+                  <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-[#111827]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                    <span>Scattered & Multi-Layer Logs</span>
                   </div>
-                  <p className="text-xs text-[#64748B] leading-relaxed">
-                    Log events are distributed across container clusters, API gateways, database logs, and background queues without correlation IDs.
+                  <p className="text-xs text-[#6B7280] leading-relaxed">
+                    Events are scattered across microservices, database clusters, and message queues without unified correlation IDs.
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-lg bg-[#F7F6F2] border border-[#E5E4DE] space-y-1.5">
-                  <div className="flex items-center space-x-2 text-xs font-mono font-medium text-[#17243A]">
-                    <span className="w-2 h-2 rounded-full bg-[#E5A34B]"></span>
-                    <span>Secondary Cascading Symptoms</span>
+                <div className="p-4 rounded-xs bg-white border border-[#E5E7EB] space-y-1">
+                  <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-[#111827]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    <span>Secondary Ripple Symptoms</span>
                   </div>
-                  <p className="text-xs text-[#64748B] leading-relaxed">
-                    A connection pool exhaustion triggers 50 HTTP 500 errors. Debugging the 500s treats symptoms rather than the underlying saturation.
+                  <p className="text-xs text-[#6B7280] leading-relaxed">
+                    A connection pool exhaustion triggers 50 HTTP 500 errors. Debugging the 500s treats symptoms rather than the root exhaustion.
                   </p>
                 </div>
 
-                <div className="p-3.5 rounded-lg bg-[#F7F6F2] border border-[#E5E4DE] space-y-1.5">
-                  <div className="flex items-center space-x-2 text-xs font-mono font-medium text-[#17243A]">
-                    <span className="w-2 h-2 rounded-full bg-[#64748B]"></span>
+                <div className="p-4 rounded-xs bg-white border border-[#E5E7EB] space-y-1">
+                  <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-[#111827]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#111827]"></span>
                     <span>Incomplete Stack Traces & Commits</span>
                   </div>
-                  <p className="text-xs text-[#64748B] leading-relaxed">
-                    Stack traces capture where the thread failed, not the state change that led to it. Recent Git merges are often falsely blamed without evidence.
+                  <p className="text-xs text-[#6B7280] leading-relaxed">
+                    Stack traces capture where execution stopped, not the condition that triggered it. Recent Git merges are often falsely blamed without evidence.
                   </p>
                 </div>
 
@@ -87,88 +86,88 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
 
             </div>
 
-            <div className="pt-6 border-t border-[#E5E4DE] text-xs font-mono text-[#64748B]">
-              Result: High Mean-Time-to-Resolution (MTTR) and trial-and-error deployments.
+            <div className="pt-6 border-t border-[#E5E7EB] text-xs font-mono text-[#6B7280]">
+              Outcome: Prolonged recovery times and speculative hotfixes.
             </div>
           </div>
 
           {/* Right Column: Whyrus Systematic Synthesis (7 cols) */}
-          <div className="lg:col-span-7 bg-[#17243A] text-white rounded-xl p-8 border border-[#273852] shadow-xl flex flex-col justify-between">
+          <div className="lg:col-span-7 bg-[#111827] text-white rounded-md p-8 border border-[#1F2937] shadow-sm flex flex-col justify-between">
             <div className="space-y-6">
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#167D78] flex items-center justify-center text-white">
+                  <div className="w-8 h-8 rounded-xs bg-[#8CE800] flex items-center justify-center text-[#111827]">
                     <Compass className="w-4 h-4" />
                   </div>
                   <h3 className="font-heading font-bold text-xl text-white">
-                    The Whyrus Systematic Approach
+                    The Whyrus Diagnostic Approach
                   </h3>
                 </div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#167D78] bg-[#167D78]/20 px-2.5 py-0.5 rounded border border-[#167D78]/30">
-                  Evidence-Grounded
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#111827] bg-[#8CE800] px-2.5 py-0.5 rounded-xs font-semibold">
+                  Evidence Grounded
                 </span>
               </div>
 
-              <p className="text-sm text-[#94A3B8] leading-relaxed">
-                Whyrus treats debugging like a forensic investigation: reconstructing the timeline, separating observed facts from speculative assumptions, and synthesizing ranked hypotheses with verifiable tests.
+              <p className="text-sm text-[#D1D5DB] leading-relaxed">
+                Whyrus structures incident investigation systematically: reconstructing the chronological timeline, separating observed facts from speculative assumptions, and synthesizing ranked hypotheses with verifiable next steps.
               </p>
 
               {/* Three Structured Breakthroughs */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
                 
-                <div className="bg-[#1E2E48] p-4 rounded-lg border border-[#2D4366] space-y-2">
-                  <div className="text-xs font-mono font-semibold text-[#5EEAD4] flex items-center space-x-1.5">
+                <div className="bg-[#1F2937] p-4 rounded-xs border border-[#374151] space-y-2">
+                  <div className="text-xs font-mono font-semibold text-[#8CE800] flex items-center space-x-1.5">
                     <Link2 className="w-3.5 h-3.5" />
                     <span>Event Correlation</span>
                   </div>
-                  <p className="text-xs text-[#CBD5E1] leading-relaxed">
-                    Identifies chronological sequences to separate the primary trigger from secondary ripple errors.
+                  <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                    Extracts chronological timelines to separate the primary trigger from secondary cascading noise.
                   </p>
                 </div>
 
-                <div className="bg-[#1E2E48] p-4 rounded-lg border border-[#2D4366] space-y-2">
-                  <div className="text-xs font-mono font-semibold text-[#E5A34B] flex items-center space-x-1.5">
+                <div className="bg-[#1F2937] p-4 rounded-xs border border-[#374151] space-y-2">
+                  <div className="text-xs font-mono font-semibold text-white flex items-center space-x-1.5">
                     <Cpu className="w-3.5 h-3.5" />
-                    <span>Hypothesis Ranking</span>
+                    <span>Ranked Hypotheses</span>
                   </div>
-                  <p className="text-xs text-[#CBD5E1] leading-relaxed">
-                    Ranks plausible root causes based on directness of supporting evidence, not speculative guesswork.
+                  <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                    Evaluates plausible causes based on evidence directness, acknowledging missing telemetry explicitly.
                   </p>
                 </div>
 
-                <div className="bg-[#1E2E48] p-4 rounded-lg border border-[#2D4366] space-y-2">
-                  <div className="text-xs font-mono font-semibold text-[#FFFFFF] flex items-center space-x-1.5">
+                <div className="bg-[#1F2937] p-4 rounded-xs border border-[#374151] space-y-2">
+                  <div className="text-xs font-mono font-semibold text-[#8CE800] flex items-center space-x-1.5">
                     <GitCommit className="w-3.5 h-3.5" />
-                    <span>Diff Context</span>
+                    <span>Git Diff Context</span>
                   </div>
-                  <p className="text-xs text-[#CBD5E1] leading-relaxed">
-                    Correlates recent configuration diffs with observed error signatures to isolate risky changes.
+                  <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                    Correlates recent configuration diffs with observed error timestamps to isolate risky changes.
                   </p>
                 </div>
 
               </div>
 
               {/* Principle Statement Quote Box */}
-              <div className="bg-[#0F172A] p-4 rounded-lg border border-[#273852] flex items-start space-x-3 text-xs text-[#CBD5E1]">
-                <CheckCircle2 className="w-4 h-4 text-[#167D78] mt-0.5 shrink-0" />
+              <div className="bg-[#18181B] p-4 rounded-xs border border-[#27272A] flex items-start space-x-3 text-xs text-[#E4E4E7]">
+                <CheckCircle2 className="w-4 h-4 text-[#8CE800] mt-0.5 shrink-0" />
                 <p className="leading-relaxed">
                   <strong className="text-white">Strict Fact Distinction:</strong> Whyrus never reports hypotheses as confirmed facts. 
-                  Every cause includes missing evidence needed for 100% certainty and concrete queries to test it.
+                  Every cause includes missing evidence needed for definitive proof and concrete inspection steps.
                 </p>
               </div>
 
             </div>
 
-            <div className="pt-6 border-t border-[#273852] flex items-center justify-between">
-              <span className="text-xs font-mono text-[#64748B]">
+            <div className="pt-6 border-t border-[#1F2937] flex items-center justify-between">
+              <span className="text-xs font-mono text-[#9CA3AF]">
                 Ready to examine your failure?
               </span>
               <button
                 onClick={onOpenAnalyzer}
-                className="inline-flex items-center space-x-1.5 text-xs font-semibold text-[#5EEAD4] hover:text-white transition-colors"
+                className="inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-[#8CE800] hover:text-[#A3E635] transition-colors"
               >
-                <span>Launch Incident Workbench</span>
+                <span>Launch Analysis Workspace</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>

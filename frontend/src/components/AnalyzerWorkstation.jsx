@@ -10,8 +10,6 @@ import {
   GitBranch, 
   HelpCircle, 
   ShieldCheck, 
-  Eye, 
-  EyeOff, 
   Sparkles, 
   Layers, 
   Cpu, 
@@ -21,10 +19,10 @@ import {
   ChevronDown, 
   ChevronRight,
   Filter,
-  ExternalLink,
-  Info
+  Info,
+  Clock,
+  Activity
 } from 'lucide-react';
-
 import { fetchPresets, previewRedaction, analyzeIncident } from '../services/api';
 
 export default function AnalyzerWorkstation({ initialPresetId, onBackToMarketing }) {
@@ -180,11 +178,11 @@ Primary Error: ${analysisResult.overview.primary_error}
 Summary: ${analysisResult.overview.summary}
 
 TOP ROOT CAUSE HYPOTHESIS:
-${analysisResult.hypotheses[0]?.title} (Confidence: ${analysisResult.hypotheses[0]?.confidence_label})
-Evidence: ${analysisResult.hypotheses[0]?.supporting_evidence_ids.join(', ')}
+${analysisResult.hypotheses[0]?.title} (Evidence Strength: ${analysisResult.hypotheses[0]?.confidence_label})
+Evidence IDs: ${analysisResult.hypotheses[0]?.supporting_evidence_ids.join(', ')}
 ${analysisResult.hypotheses[0]?.explanation}
 
-FIRST RECOMMENDED ACTION:
+TOP RECOMMENDED ACTION:
 ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_actions[0]?.details}`;
 
     navigator.clipboard.writeText(text);
@@ -193,35 +191,35 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F6F2] py-8 lg:py-12">
+    <div className="min-h-screen bg-[#FAFAF9] py-8 lg:py-12 text-[#111827]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Workstation Header */}
-        <div className="bg-[#17243A] text-white rounded-2xl p-6 sm:p-8 border border-[#273852] shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="bg-white rounded-md p-6 sm:p-8 border border-[#E5E7EB] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-xs font-mono font-medium tracking-wider uppercase text-[#167D78]">
-              <span className="w-2 h-2 rounded-full bg-[#167D78] animate-pulse"></span>
-              <span>Incident Investigation Workbench</span>
+            <div className="inline-flex items-center space-x-2 text-xs font-mono font-semibold tracking-wider uppercase text-[#111827]">
+              <span className="w-2 h-2 rounded-full bg-[#8CE800]"></span>
+              <span>Incident Investigation Workspace</span>
             </div>
-            <h1 className="font-heading font-extrabold text-2xl sm:text-3xl text-white">
+            <h1 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#111827]">
               Root-Cause Analysis Engine
             </h1>
-            <p className="text-sm text-[#94A3B8] max-w-xl">
-              Supply unstructured log dumps, stack traces, and optional Git diffs. 
-              Whyrus redacts secrets, reconstructs the timeline, and ranks verifiable hypotheses.
+            <p className="text-sm text-[#4B5563] max-w-xl">
+              Supply unstructured log excerpts, stack traces, and optional Git diffs. 
+              Whyrus automatically sanitizes secrets, parses the event sequence, and evaluates evidence-backed hypotheses.
             </p>
           </div>
 
           {/* Quick Presets Menu */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            <div className="text-xs font-mono text-[#94A3B8] self-center mr-2 hidden lg:block">
-              Load Realistic Presets:
+            <div className="text-xs font-mono text-[#6B7280] self-center mr-2 hidden lg:block uppercase tracking-wider">
+              Load Demo Presets:
             </div>
             {presets.map((preset) => (
               <button
                 key={preset.id}
                 onClick={() => applyPreset(preset)}
-                className="px-3 py-2 rounded bg-[#1E2E48] hover:bg-[#273852] border border-[#334155] text-xs font-mono text-[#CBD5E1] hover:text-white transition-colors"
+                className="px-3 py-2 rounded-xs bg-[#FAFAF9] hover:bg-[#111827] hover:text-white border border-[#E5E7EB] text-xs font-mono text-[#111827] transition-all"
                 title={preset.description}
               >
                 {preset.name.split(' ')[0]} {preset.name.split(' ')[1]}
@@ -231,15 +229,15 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
         </div>
 
         {/* INPUT WORKBENCH SECTION */}
-        <div className="bg-white rounded-2xl border border-[#E5E4DE] shadow-sm p-6 lg:p-8 space-y-6">
+        <div className="bg-white rounded-md border border-[#E5E7EB] shadow-xs p-6 lg:p-8 space-y-6">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E4DE] pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E7EB] pb-4">
             <div>
-              <h2 className="font-heading font-bold text-lg text-[#17243A]">
-                1. Incident Input & Log Stream
+              <h2 className="font-heading font-bold text-lg text-[#111827]">
+                1. Incident Logs & Telemetry
               </h2>
-              <p className="text-xs text-[#64748B]">
-                Paste logs or upload a .log / .txt file. Maximum 500 KB.
+              <p className="text-xs text-[#6B7280]">
+                Paste logs or upload a .log / .txt file. Maximum 500 KB safety cap.
               </p>
             </div>
 
@@ -254,7 +252,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-[#F7F6F2] hover:bg-[#E5E4DE] border border-[#CBD5E1] text-xs font-mono text-[#17243A] transition-colors"
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xs bg-[#FAFAF9] hover:bg-[#F4F4F2] border border-[#D1D5DB] text-xs font-mono text-[#111827] transition-colors"
               >
                 <Upload className="w-3.5 h-3.5" />
                 <span>Upload .log / .txt</span>
@@ -264,9 +262,9 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                 type="button"
                 onClick={handleCheckRedaction}
                 disabled={!rawLogs.trim()}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-teal-50 hover:bg-teal-100 border border-teal-200 text-xs font-mono text-[#167D78] transition-colors disabled:opacity-40"
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xs bg-white hover:bg-[#F4FBE8] border border-[#D1D5DB] text-xs font-mono text-[#111827] transition-colors disabled:opacity-40"
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#65A30D]" />
                 <span>Preview Redaction</span>
               </button>
             </div>
@@ -274,7 +272,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
 
           {/* Error Message Alert */}
           {error && (
-            <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-xs text-red-800 flex items-start space-x-3">
+            <div className="p-4 rounded-xs bg-red-50 border border-red-200 text-xs text-red-800 flex items-start space-x-3">
               <AlertTriangle className="w-4 h-4 text-red-600 mt-0.5 shrink-0" />
               <div className="space-y-1">
                 <span className="font-bold">Input Error:</span>
@@ -285,27 +283,27 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
 
           {/* Redaction Preview Info Box */}
           {previewingRedaction && redactionPreview && (
-            <div className="p-4 rounded-xl bg-teal-50 border border-teal-200 text-xs text-teal-900 space-y-2">
+            <div className="p-4 rounded-xs bg-[#F4FBE8] border border-[#D3F49A] text-xs text-[#1F2937] space-y-2 animate-fade-in-up">
               <div className="flex items-center justify-between">
-                <span className="font-bold flex items-center space-x-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#167D78]" />
+                <span className="font-bold flex items-center space-x-1.5 text-[#111827]">
+                  <ShieldCheck className="w-4 h-4 text-[#65A30D]" />
                   <span>Client & Backend Secret Scrubbing Preview</span>
                 </span>
-                <span className="font-mono text-[11px] bg-white px-2 py-0.5 rounded border border-teal-200 text-[#167D78]">
+                <span className="font-mono text-[11px] bg-white px-2 py-0.5 rounded-xs border border-[#D3F49A] text-[#111827] font-semibold">
                   {redactionPreview.redactions_count} sensitive tokens detected & masked
                 </span>
               </div>
-              <p className="text-[11px] text-teal-800">
-                All identified JWT tokens, passwords, Authorization headers, and AWS credentials are automatically replaced with redact tags before entering the parsing pipeline.
+              <p className="text-[11px] text-[#4B5563]">
+                Identified JWT tokens, passwords, Authorization headers, and cloud credentials are automatically replaced with redact tags before entering the analysis engine.
               </p>
             </div>
           )}
 
           {/* Log Editor Textarea */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono text-[#64748B]">
+            <div className="flex items-center justify-between text-xs font-mono text-[#6B7280]">
               <span>Raw Incident Logs</span>
-              <span>{rawLogs.split('\n').filter(Boolean).length} lines • {rawLogs.length} chars</span>
+              <span>{rawLogs.split('\n').filter(Boolean).length} lines • {rawLogs.length} characters</span>
             </div>
 
             <textarea
@@ -317,7 +315,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
               }}
               rows={9}
               placeholder="Paste raw logs, stack traces, or console output here... e.g.&#10;10:42:01 INFO [order-service] Starting service...&#10;10:42:04 ERROR [db-pool] Connection timeout: could not acquire connection after 1000ms&#10;10:42:06 ERROR [http-server] HTTP 500 Internal Server Error"
-              className="w-full p-4 rounded-xl bg-[#0F172A] text-[#CBD5E1] font-mono text-xs leading-relaxed border border-[#273852] focus:ring-2 focus:ring-[#167D78] focus:border-transparent outline-none resize-y selection:bg-[#167D78]/40"
+              className="w-full p-4 rounded-xs bg-[#111827] text-[#E5E7EB] font-mono text-xs leading-relaxed border border-[#1F2937] focus:ring-2 focus:ring-[#8CE800] focus:border-transparent outline-hidden resize-y selection:bg-[#8CE800]/40"
             />
           </div>
 
@@ -326,7 +324,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               
               <div>
-                <label className="block text-xs font-mono text-[#64748B] mb-1">
+                <label className="block text-xs font-mono text-[#6B7280] mb-1">
                   Optional Service / Component Context
                 </label>
                 <input
@@ -334,20 +332,20 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                   value={serviceContext}
                   onChange={(e) => setServiceContext(e.target.value)}
                   placeholder="e.g. order-service, production-us-east-1"
-                  className="w-full px-3.5 py-2 rounded-lg bg-[#F7F6F2] border border-[#E5E4DE] text-xs font-mono text-[#17243A] focus:ring-1 focus:ring-[#167D78] outline-none"
+                  className="w-full px-3.5 py-2 rounded-xs bg-[#FAFAF9] border border-[#E5E7EB] text-xs font-mono text-[#111827] focus:ring-1 focus:ring-[#111827] outline-hidden"
                 />
               </div>
 
-              <div className="flex items-center justify-between p-3 rounded-lg bg-[#F7F6F2] border border-[#E5E4DE]">
+              <div className="flex items-center justify-between p-3 rounded-xs bg-[#FAFAF9] border border-[#E5E7EB]">
                 <div>
-                  <div className="text-xs font-medium text-[#17243A]">Enable Gemini Reasoning</div>
-                  <div className="text-[11px] text-[#64748B]">Enriches deterministic rules with LLM synthesis</div>
+                  <div className="text-xs font-semibold text-[#111827]">Enable Gemini Reasoning</div>
+                  <div className="text-[11px] text-[#6B7280]">Enriches deterministic rules with LLM synthesis when configured</div>
                 </div>
                 <input
                   type="checkbox"
                   checked={useAI}
                   onChange={(e) => setUseAI(e.target.checked)}
-                  className="w-4 h-4 text-[#167D78] rounded border-gray-300 focus:ring-[#167D78] accent-[#167D78]"
+                  className="w-4 h-4 text-[#111827] rounded-xs border-gray-300 focus:ring-[#8CE800] accent-[#111827]"
                 />
               </div>
 
@@ -358,21 +356,21 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
               <button
                 type="button"
                 onClick={() => setShowGitDiffInput(!showGitDiffInput)}
-                className="inline-flex items-center space-x-1.5 text-xs font-mono text-[#167D78] hover:text-[#126863] font-medium"
+                className="inline-flex items-center space-x-1.5 text-xs font-mono text-[#111827] hover:text-black font-semibold underline decoration-[#8CE800] decoration-2 underline-offset-4"
               >
-                <GitBranch className="w-3.5 h-3.5" />
+                <GitBranch className="w-3.5 h-3.5 text-[#65A30D]" />
                 <span>{showGitDiffInput ? "− Hide Git Diff Input" : "+ Correlate with Recent Git Diff"}</span>
               </button>
 
               {showGitDiffInput && (
-                <div className="mt-3 space-y-1">
-                  <span className="text-[11px] font-mono text-[#64748B]">Unified Diff (git diff HEAD~1):</span>
+                <div className="mt-3 space-y-1 animate-fade-in-up">
+                  <span className="text-[11px] font-mono text-[#6B7280]">Unified Diff (git diff HEAD~1):</span>
                   <textarea
                     value={gitDiff}
                     onChange={(e) => setGitDiff(e.target.value)}
                     rows={4}
-                    placeholder="diff --git a/config/database.yml b/config/database.yml&#10;--- a/config/database.yml&#10;+++ b/config/database.yml&#10;@@ -12,2 +12,2 @@&#10;-  pool_size: 25&#10;+  pool_size: 5"
-                    className="w-full p-3 rounded-xl bg-[#0F172A] text-[#CBD5E1] font-mono text-xs border border-[#273852] focus:ring-1 focus:ring-[#167D78] outline-none"
+                    placeholder="diff --git a/config/database.yml b/config/database.yml&#10;--- a/config/database.yml&#10;+++ b/config/database.yml&#10;@@ -12,2 +12,2 @@&#10;-  pool_size: 25&#10;+  pool_size: 4"
+                    className="w-full p-3 rounded-xs bg-[#111827] text-[#E5E7EB] font-mono text-xs border border-[#1F2937] focus:ring-1 focus:ring-[#8CE800] outline-hidden"
                   />
                 </div>
               )}
@@ -381,8 +379,8 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
           </div>
 
           {/* Primary Action Button */}
-          <div className="pt-4 border-t border-[#E5E4DE] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-xs text-[#64748B]">
+          <div className="pt-4 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-xs text-[#6B7280]">
               Processing is local & evidence-grounded. No credentials stored.
             </div>
 
@@ -396,7 +394,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                     setAnalysisResult(null);
                     setError(null);
                   }}
-                  className="px-4 py-2.5 rounded text-xs font-mono text-[#64748B] hover:text-[#17243A]"
+                  className="px-4 py-2.5 rounded-xs text-xs font-mono text-[#6B7280] hover:text-[#111827]"
                 >
                   Clear All
                 </button>
@@ -406,7 +404,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                 type="button"
                 disabled={loading || !rawLogs.trim()}
                 onClick={handleRunAnalysis}
-                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-xl bg-[#167D78] hover:bg-[#126863] text-white font-medium text-sm transition-all shadow-md shadow-[#167D78]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-xs bg-[#111827] hover:bg-[#8CE800] hover:text-[#111827] text-white font-semibold text-xs uppercase tracking-wider transition-all shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <>
@@ -416,7 +414,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                 ) : (
                   <>
                     <Play className="w-4 h-4 fill-current" />
-                    <span>Analyze Incident</span>
+                    <span>Analyse Incident</span>
                   </>
                 )}
               </button>
@@ -427,29 +425,29 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
 
         {/* ANALYSIS RESULTS SECTION */}
         {analysisResult && (
-          <div ref={resultsRef} className="space-y-8 animate-fadeIn">
+          <div ref={resultsRef} className="space-y-8 animate-fade-in-up">
             
             {/* Incident Header & Overview Card */}
-            <div className="bg-white rounded-2xl border border-[#E5E4DE] shadow-sm p-6 lg:p-8 space-y-6">
+            <div className="bg-white rounded-md border border-[#E5E7EB] shadow-xs p-6 lg:p-8 space-y-6">
               
-              <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-[#E5E4DE] gap-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-[#E5E7EB] gap-4">
                 <div className="space-y-1">
-                  <div className="flex items-center space-x-2">
-                    <span className="font-mono text-xs uppercase tracking-wider text-[#64748B]">
+                  <div className="flex items-center space-x-2.5">
+                    <span className="font-mono text-xs uppercase tracking-wider text-[#6B7280]">
                       Analysis Result:
                     </span>
-                    <span className="font-mono text-xs text-white bg-[#17243A] px-2 py-0.5 rounded font-bold">
+                    <span className="font-mono text-xs text-white bg-[#111827] px-2 py-0.5 rounded-xs font-bold">
                       {analysisResult.incident_id}
                     </span>
-                    <span className={`text-xs px-2.5 py-0.5 rounded font-mono font-bold ${
-                      analysisResult.overview.severity === 'CRITICAL' ? 'bg-red-100 text-red-800 border border-red-200' :
-                      analysisResult.overview.severity === 'HIGH' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                    <span className={`text-xs px-2.5 py-0.5 rounded-xs font-mono font-bold ${
+                      analysisResult.overview.severity === 'CRITICAL' ? 'bg-red-50 text-red-700 border border-red-200' :
+                      analysisResult.overview.severity === 'HIGH' ? 'bg-amber-50 text-amber-800 border border-amber-200' :
                       'bg-slate-100 text-slate-800'
                     }`}>
                       {analysisResult.overview.severity}
                     </span>
                   </div>
-                  <h3 className="font-heading font-bold text-xl text-[#17243A]">
+                  <h3 className="font-heading font-bold text-xl text-[#111827]">
                     {analysisResult.overview.primary_error}
                   </h3>
                 </div>
@@ -457,7 +455,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                 <div className="flex items-center space-x-2.5">
                   <button
                     onClick={copyIncidentSummary}
-                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-[#F7F6F2] hover:bg-[#E5E4DE] text-xs font-mono text-[#17243A] border border-[#CBD5E1] transition-colors"
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xs bg-white hover:bg-[#FAFAF9] text-xs font-mono text-[#111827] border border-[#D1D5DB] transition-colors"
                   >
                     {copiedSummary ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedSummary ? 'Copied' : 'Copy Summary'}</span>
@@ -465,7 +463,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
 
                   <button
                     onClick={handleReset}
-                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-[#17243A] hover:bg-[#273852] text-xs font-mono text-white transition-colors"
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xs bg-[#111827] hover:bg-[#8CE800] hover:text-[#111827] text-xs font-mono text-white transition-colors"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                     <span>Submit Another Incident</span>
@@ -473,29 +471,29 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                 </div>
               </div>
 
-              {/* Engine Transparency Notice */}
-              <div className="bg-[#17243A] text-white p-4 rounded-xl border border-[#273852] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              {/* Engine Status Transparency Notice */}
+              <div className="bg-[#FAFAF9] text-[#111827] p-4 rounded-xs border border-[#E5E7EB] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                 <div className="flex items-center space-x-2 font-mono">
-                  <span className="w-2 h-2 rounded-full bg-[#167D78] animate-pulse"></span>
-                  <span className="text-[#5EEAD4] font-semibold">{analysisResult.analysis_engine_used}</span>
-                  <span className="text-[#64748B]">|</span>
-                  <span className="text-[#CBD5E1]">{analysisResult.engine_notes}</span>
+                  <span className="w-2 h-2 rounded-full bg-[#8CE800]"></span>
+                  <span className="font-bold text-[#111827]">{analysisResult.analysis_engine_used}</span>
+                  <span className="text-[#9CA3AF]">|</span>
+                  <span className="text-[#4B5563]">{analysisResult.engine_notes}</span>
                 </div>
                 {analysisResult.redacted_secrets_count > 0 && (
-                  <span className="font-mono text-[11px] bg-[#0F172A] px-2 py-0.5 rounded text-[#E5A34B] border border-[#334155]">
+                  <span className="font-mono text-[11px] bg-white px-2 py-0.5 rounded-xs text-[#111827] border border-[#E5E7EB]">
                     {analysisResult.redacted_secrets_count} secrets redacted
                   </span>
                 )}
               </div>
 
-              {/* Parsing Warnings when relevant */}
+              {/* Parsing Warnings */}
               {analysisResult.parsing_warnings?.length > 0 && (
-                <div className="p-3.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1">
+                <div className="p-3.5 rounded-xs bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1">
                   <div className="font-semibold flex items-center space-x-1">
                     <Info className="w-3.5 h-3.5 text-amber-700" />
                     <span>Parsing Warnings</span>
                   </div>
-                  <ul className="list-disc list-inside text-[11px] space-y-0.5">
+                  <ul className="list-disc list-inside text-[11px] space-y-0.5 text-amber-800">
                     {analysisResult.parsing_warnings.map((w, idx) => (
                       <li key={idx}>{w}</li>
                     ))}
@@ -503,45 +501,45 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                 </div>
               )}
 
-              {/* Executive Technical Summary */}
-              <div className="bg-[#F7F6F2] p-5 rounded-xl border border-[#E5E4DE] space-y-2">
-                <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#167D78]">
+              {/* Executive Summary */}
+              <div className="bg-white p-5 rounded-xs border border-[#E5E7EB] space-y-2">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#111827]">
                   Incident Overview Summary
                 </span>
-                <p className="text-sm text-[#17243A] leading-relaxed">
+                <p className="text-sm text-[#111827] leading-relaxed">
                   {analysisResult.overview.summary}
                 </p>
-                <div className="text-xs text-[#64748B] pt-1">
+                <div className="text-xs text-[#6B7280] pt-1">
                   <strong>Severity Reasoning:</strong> {analysisResult.overview.severity_reasoning}
                 </div>
               </div>
 
               {/* Metrics Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
-                <div className="p-3.5 rounded-xl bg-white border border-[#E5E4DE]">
-                  <div className="text-[#64748B]">Total Events</div>
-                  <div className="mt-1 text-base font-bold text-[#17243A]">
+                <div className="p-3.5 rounded-xs bg-[#FAFAF9] border border-[#E5E7EB]">
+                  <div className="text-[#6B7280]">Total Events</div>
+                  <div className="mt-1 text-base font-bold text-[#111827]">
                     {analysisResult.overview.total_events}
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white border border-[#E5E4DE]">
-                  <div className="text-[#64748B]">Error Events</div>
-                  <div className="mt-1 text-base font-bold text-[#C94C4C]">
+                <div className="p-3.5 rounded-xs bg-[#FAFAF9] border border-[#E5E7EB]">
+                  <div className="text-[#6B7280]">Error Events</div>
+                  <div className="mt-1 text-base font-bold text-red-600">
                     {analysisResult.overview.error_count}
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white border border-[#E5E4DE]">
-                  <div className="text-[#64748B]">Earliest Event</div>
-                  <div className="mt-1 text-xs font-bold text-[#17243A] truncate">
+                <div className="p-3.5 rounded-xs bg-[#FAFAF9] border border-[#E5E7EB]">
+                  <div className="text-[#6B7280]">Earliest Event</div>
+                  <div className="mt-1 text-xs font-bold text-[#111827] truncate">
                     {analysisResult.overview.first_event_time || 'Initial line'}
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white border border-[#E5E4DE]">
-                  <div className="text-[#64748B]">Involved Components</div>
-                  <div className="mt-1 text-xs font-bold text-[#167D78] truncate">
+                <div className="p-3.5 rounded-xs bg-[#FAFAF9] border border-[#E5E7EB]">
+                  <div className="text-[#6B7280]">Involved Services</div>
+                  <div className="mt-1 text-xs font-bold text-[#111827] truncate">
                     {analysisResult.overview.affected_components.join(', ') || 'N/A'}
                   </div>
                 </div>
@@ -549,18 +547,18 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
 
             </div>
 
-            {/* TWO-COLUMN RESULTS LAYOUT: TIMELINE (LEFT) & HYPOTHESES (RIGHT) */}
+            {/* 2-COLUMN RESULTS LAYOUT: TIMELINE (LEFT) & HYPOTHESES (RIGHT) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* TIMELINE SECTION (5 cols) */}
-              <div className="lg:col-span-5 bg-white rounded-2xl border border-[#E5E4DE] shadow-sm p-6 space-y-4">
+              <div className="lg:col-span-5 bg-white rounded-md border border-[#E5E7EB] shadow-xs p-6 space-y-4">
                 
-                <div className="flex items-center justify-between pb-3 border-b border-[#E5E4DE]">
+                <div className="flex items-center justify-between pb-3 border-b border-[#E5E7EB]">
                   <div className="flex items-center space-x-2">
-                    <span className="font-heading font-bold text-base text-[#17243A]">
+                    <span className="font-heading font-bold text-base text-[#111827]">
                       Timeline Events
                     </span>
-                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#F7F6F2] text-[#64748B] border border-[#E5E4DE]">
+                    <span className="text-xs font-mono px-2 py-0.5 rounded-xs bg-[#FAFAF9] text-[#6B7280] border border-[#E5E7EB]">
                       {analysisResult.timeline.length}
                     </span>
                   </div>
@@ -569,13 +567,21 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                   <div className="flex items-center space-x-1 text-xs font-mono">
                     <button
                       onClick={() => setTimelineFilter('all')}
-                      className={`px-2 py-0.5 rounded ${timelineFilter === 'all' ? 'bg-[#17243A] text-white' : 'text-[#64748B] hover:text-[#17243A]'}`}
+                      className={`px-2.5 py-1 rounded-xs transition-colors ${
+                        timelineFilter === 'all' 
+                          ? 'bg-[#111827] text-white font-bold' 
+                          : 'text-[#6B7280] hover:text-[#111827]'
+                      }`}
                     >
                       All
                     </button>
                     <button
                       onClick={() => setTimelineFilter('errors')}
-                      className={`px-2 py-0.5 rounded ${timelineFilter === 'errors' ? 'bg-[#17243A] text-white' : 'text-[#64748B] hover:text-[#17243A]'}`}
+                      className={`px-2.5 py-1 rounded-xs transition-colors ${
+                        timelineFilter === 'errors' 
+                          ? 'bg-[#111827] text-white font-bold' 
+                          : 'text-[#6B7280] hover:text-[#111827]'
+                      }`}
                     >
                       Errors Only
                     </button>
@@ -595,23 +601,23 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                           key={ev.id}
                           id={`ev-${ev.id}`}
                           onClick={() => setSelectedEvidenceId(ev.id)}
-                          className={`p-3 rounded-xl border transition-all cursor-pointer ${
+                          className={`p-3 rounded-xs border transition-all cursor-pointer ${
                             isHighlighted
-                              ? 'bg-teal-50/70 border-[#167D78] ring-2 ring-[#167D78]/30 shadow-sm'
-                              : 'bg-white border-[#E5E4DE] hover:border-[#CBD5E1]'
+                              ? 'bg-[#F4FBE8] border-[#8CE800] ring-2 ring-[#8CE800]/50 shadow-xs'
+                              : 'bg-white border-[#E5E7EB] hover:border-[#9CA3AF]'
                           }`}
                         >
                           <div className="flex items-center justify-between text-xs font-mono">
                             <div className="flex items-center space-x-2">
-                              <span className="px-1.5 py-0.5 rounded bg-[#17243A] text-white font-bold text-[10px]">
+                              <span className="px-1.5 py-0.5 rounded-xs bg-[#111827] text-white font-bold text-[10px]">
                                 {ev.id}
                               </span>
-                              <span className="text-[#64748B]">{ev.timestamp || `#${ev.line_number}`}</span>
-                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${
+                              <span className="text-[#6B7280]">{ev.timestamp || `#${ev.line_number}`}</span>
+                              <span className={`px-1.5 py-0.5 rounded-xs text-[10px] font-bold ${
                                 ev.level === 'CRITICAL' || ev.level === 'ERROR'
                                   ? 'bg-red-50 text-red-700 border border-red-200'
                                   : ev.level === 'WARN'
-                                  ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                  ? 'bg-amber-50 text-amber-800 border border-amber-200'
                                   : 'bg-slate-100 text-slate-700'
                               }`}>
                                 {ev.level}
@@ -619,33 +625,33 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                             </div>
 
                             {ev.component && (
-                              <span className="text-[11px] font-mono text-[#64748B] truncate max-w-[120px]">
+                              <span className="text-[11px] font-mono text-[#6B7280] truncate max-w-[120px]">
                                 [{ev.component}]
                               </span>
                             )}
                           </div>
 
-                          <div className="mt-2 text-xs font-mono text-[#17243A] break-words">
+                          <div className="mt-2 text-xs font-mono text-[#111827] break-words">
                             {ev.message}
                           </div>
 
                           {/* Stack Trace fold */}
                           {hasStackTrace && (
-                            <div className="mt-2 pt-2 border-t border-[#E5E4DE]">
+                            <div className="mt-2 pt-2 border-t border-[#E5E7EB]">
                               <button
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setExpandedTraceEventId(isTraceOpen ? null : ev.id);
                                 }}
-                                className="text-[11px] font-mono text-[#167D78] hover:text-[#126863] flex items-center space-x-1"
+                                className="text-[11px] font-mono text-[#111827] hover:text-black font-semibold flex items-center space-x-1"
                               >
                                 {isTraceOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-                                <span>{isTraceOpen ? 'Hide Folded Stack Trace' : 'View Folded Stack Trace'}</span>
+                                <span>{isTraceOpen ? 'Hide Stack Trace' : 'View Stack Trace'}</span>
                               </button>
 
                               {isTraceOpen && (
-                                <pre className="mt-2 p-2.5 rounded bg-[#0F172A] text-[#CBD5E1] text-[10px] font-mono overflow-x-auto whitespace-pre leading-relaxed border border-[#273852]">
+                                <pre className="mt-2 p-2.5 rounded-xs bg-[#111827] text-[#E5E7EB] text-[10px] font-mono overflow-x-auto whitespace-pre leading-relaxed border border-[#1F2937]">
                                   {ev.stack_trace}
                                 </pre>
                               )}
@@ -663,17 +669,17 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
               <div className="lg:col-span-7 space-y-6">
                 
                 {/* Ranked Hypotheses Card */}
-                <div className="bg-white rounded-2xl border border-[#E5E4DE] shadow-sm p-6 lg:p-7 space-y-5">
-                  <div className="flex items-center justify-between pb-3 border-b border-[#E5E4DE]">
+                <div className="bg-white rounded-md border border-[#E5E7EB] shadow-xs p-6 lg:p-7 space-y-5">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#E5E7EB]">
                     <div className="space-y-0.5">
-                      <h3 className="font-heading font-bold text-lg text-[#17243A]">
+                      <h3 className="font-heading font-bold text-lg text-[#111827]">
                         Ranked Root-Cause Hypotheses
                       </h3>
-                      <p className="text-xs text-[#64748B]">
+                      <p className="text-xs text-[#6B7280]">
                         Ranked by evidence precedence. Click evidence tags to highlight timeline events.
                       </p>
                     </div>
-                    <span className="text-xs font-mono text-[#167D78] bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+                    <span className="text-xs font-mono text-[#111827] bg-[#FAFAF9] px-2 py-0.5 rounded-xs border border-[#E5E7EB] font-bold">
                       {analysisResult.hypotheses.length} plausible
                     </span>
                   </div>
@@ -685,36 +691,36 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                       return (
                         <div
                           key={h.id}
-                          className={`rounded-xl p-5 border transition-all ${
+                          className={`rounded-xs p-5 border transition-all ${
                             isTopRank
-                              ? 'bg-[#F7F6F2] border-[#167D78] shadow-sm'
-                              : 'bg-white border-[#E5E4DE]'
+                              ? 'bg-[#FAFAF9] border-[#111827] shadow-xs'
+                              : 'bg-white border-[#E5E7EB]'
                           }`}
                         >
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div className="flex items-center space-x-2.5">
-                              <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${
-                                isTopRank ? 'bg-[#167D78] text-white' : 'bg-[#17243A] text-white'
+                              <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded-xs ${
+                                isTopRank ? 'bg-[#111827] text-white' : 'bg-[#E5E7EB] text-[#4B5563]'
                               }`}>
                                 Rank #{h.rank} • {h.id}
                               </span>
-                              <h4 className="font-heading font-bold text-base text-[#17243A]">
+                              <h4 className="font-heading font-bold text-base text-[#111827]">
                                 {h.title}
                               </h4>
                             </div>
 
-                            <span className="font-mono text-xs px-2.5 py-0.5 rounded bg-white border border-[#CBD5E1] text-[#17243A] font-semibold shrink-0">
-                              Confidence: {h.confidence_label} ({Math.round(h.confidence_score * 100)}%)
+                            <span className="font-mono text-xs px-2.5 py-0.5 rounded-xs bg-white border border-[#D1D5DB] text-[#111827] font-semibold shrink-0">
+                              Evidence Strength: {h.confidence_label} ({Math.round(h.confidence_score * 100)}%)
                             </span>
                           </div>
 
-                          <p className="mt-3 text-xs text-[#17243A] leading-relaxed">
+                          <p className="mt-3 text-xs text-[#374151] leading-relaxed">
                             {h.explanation}
                           </p>
 
                           {/* Supporting Evidence IDs */}
-                          <div className="mt-3 pt-3 border-t border-[#E5E4DE] flex flex-wrap items-center gap-2 text-xs">
-                            <span className="font-mono text-[#64748B] text-[11px]">Supporting Evidence:</span>
+                          <div className="mt-3 pt-3 border-t border-[#E5E7EB] flex flex-wrap items-center gap-2 text-xs">
+                            <span className="font-mono text-[#6B7280] text-[11px]">Supporting Evidence:</span>
                             {h.supporting_evidence_ids.map(eid => (
                               <button
                                 key={eid}
@@ -723,10 +729,10 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                                   const el = document.getElementById(`ev-${eid}`);
                                   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                 }}
-                                className={`px-2 py-0.5 rounded font-mono text-[11px] font-bold border transition-colors ${
+                                className={`px-2 py-0.5 rounded-xs font-mono text-[11px] font-bold border transition-colors ${
                                   selectedEvidenceId === eid
-                                    ? 'bg-[#167D78] text-white border-[#167D78]'
-                                    : 'bg-white text-[#167D78] border-[#167D78]/40 hover:bg-teal-50'
+                                    ? 'bg-[#111827] text-white border-[#111827]'
+                                    : 'bg-white text-[#111827] border-[#D1D5DB] hover:bg-[#F4FBE8] hover:border-[#8CE800]'
                                 }`}
                               >
                                 {eid} ↗
@@ -735,19 +741,19 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                           </div>
 
                           {/* Ranking rationale */}
-                          <div className="mt-2 text-[11px] font-mono text-[#64748B]">
+                          <div className="mt-2 text-[11px] font-mono text-[#6B7280]">
                             <strong>Rationale:</strong> {h.reason_for_ranking}
                           </div>
 
                           {/* Verification Checks */}
                           {h.verification_checks?.length > 0 && (
-                            <div className="mt-3 p-3 rounded-lg bg-white border border-[#E5E4DE] space-y-1.5 text-xs">
-                              <span className="font-mono font-semibold text-[#17243A] text-[11px] block">
+                            <div className="mt-3 p-3 rounded-xs bg-white border border-[#E5E7EB] space-y-1.5 text-xs">
+                              <span className="font-mono font-semibold text-[#111827] text-[11px] block">
                                 Checks Required to Validate:
                               </span>
                               {h.verification_checks.map((chk, cIdx) => (
-                                <div key={cIdx} className="flex items-start space-x-2 text-[#64748B]">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#167D78] mt-1.5 shrink-0"></span>
+                                <div key={cIdx} className="flex items-start space-x-2 text-[#4B5563]">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#8CE800] mt-1.5 shrink-0"></span>
                                   <span className="leading-relaxed">{chk}</span>
                                 </div>
                               ))}
@@ -756,12 +762,12 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
 
                           {/* Missing Evidence Required to Confirm */}
                           {h.missing_evidence?.length > 0 && (
-                            <div className="mt-2 p-2.5 rounded-lg bg-amber-50/70 border border-amber-200/70 text-[11px] text-amber-900 space-y-1">
+                            <div className="mt-2 p-2.5 rounded-xs bg-amber-50/70 border border-amber-200/70 text-[11px] text-amber-900 space-y-1">
                               <span className="font-semibold font-mono flex items-center space-x-1">
-                                <HelpCircle className="w-3 h-3 text-amber-700" />
-                                <span>Missing Telemetry to Reach 100% Certainty:</span>
+                                <HelpCircle className="w-3.5 h-3.5 text-amber-700" />
+                                <span>Missing Telemetry to Reach Certainty:</span>
                               </span>
-                              <div className="leading-relaxed">
+                              <div className="leading-relaxed text-amber-800">
                                 {h.missing_evidence.join(' • ')}
                               </div>
                             </div>
@@ -775,12 +781,12 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                 </div>
 
                 {/* Recommended Actions Card */}
-                <div className="bg-white rounded-2xl border border-[#E5E4DE] shadow-sm p-6 lg:p-7 space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-[#E5E4DE]">
-                    <h3 className="font-heading font-bold text-lg text-[#17243A]">
+                <div className="bg-white rounded-md border border-[#E5E7EB] shadow-xs p-6 lg:p-7 space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[#E5E7EB]">
+                    <h3 className="font-heading font-bold text-lg text-[#111827]">
                       Targeted Debugging Recommendations
                     </h3>
-                    <span className="text-xs font-mono text-[#64748B]">
+                    <span className="text-xs font-mono text-[#6B7280]">
                       {analysisResult.recommended_actions.length} prioritized steps
                     </span>
                   </div>
@@ -789,29 +795,29 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                     {analysisResult.recommended_actions.map((act) => (
                       <div
                         key={act.id}
-                        className="p-4 rounded-xl border border-[#E5E4DE] bg-white space-y-2 hover:border-[#CBD5E1] transition-all"
+                        className="p-4 rounded-xs border border-[#E5E7EB] bg-white space-y-2 hover:border-[#D1D5DB] transition-all"
                       >
                         <div className="flex items-center justify-between">
-                          <span className={`text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
+                          <span className={`text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs border ${
                             act.category === 'Immediate Check' ? 'bg-red-50 text-red-700 border-red-200' :
-                            act.category === 'Verification Test' ? 'bg-teal-50 text-teal-700 border-teal-200' :
+                            act.category === 'Verification Test' ? 'bg-slate-100 text-slate-800 border-slate-200' :
                             'bg-amber-50 text-amber-800 border-amber-200'
                           }`}>
                             {act.category} • {act.id}
                           </span>
                           
                           {act.relevant_files_or_endpoints?.length > 0 && (
-                            <span className="text-[11px] font-mono text-[#64748B] truncate max-w-[200px]">
+                            <span className="text-[11px] font-mono text-[#6B7280] truncate max-w-[200px]">
                               {act.relevant_files_or_endpoints.join(', ')}
                             </span>
                           )}
                         </div>
 
-                        <h4 className="font-heading font-bold text-sm text-[#17243A]">
+                        <h4 className="font-heading font-bold text-sm text-[#111827]">
                           {act.action}
                         </h4>
 
-                        <p className="text-xs text-[#64748B] leading-relaxed">
+                        <p className="text-xs text-[#4B5563] leading-relaxed">
                           {act.details}
                         </p>
                       </div>
@@ -819,37 +825,37 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
                   </div>
                 </div>
 
-                {/* Git Diff Findings Card (if supplied) */}
+                {/* Git Diff Findings Card */}
                 {analysisResult.git_diff_findings?.length > 0 && (
-                  <div className="bg-white rounded-2xl border border-[#E5E4DE] shadow-sm p-6 space-y-4">
-                    <div className="flex items-center justify-between pb-3 border-b border-[#E5E4DE]">
+                  <div className="bg-white rounded-md border border-[#E5E7EB] shadow-xs p-6 space-y-4">
+                    <div className="flex items-center justify-between pb-3 border-b border-[#E5E7EB]">
                       <div className="flex items-center space-x-2">
-                        <GitBranch className="w-4 h-4 text-[#167D78]" />
-                        <h3 className="font-heading font-bold text-base text-[#17243A]">
-                          Git Diff Correlated Changes
+                        <GitBranch className="w-4 h-4 text-[#111827]" />
+                        <h3 className="font-heading font-bold text-base text-[#111827]">
+                          Git Diff Correlated Context
                         </h3>
                       </div>
-                      <span className="text-xs font-mono text-[#64748B]">
+                      <span className="text-xs font-mono text-[#6B7280]">
                         {analysisResult.git_diff_findings.length} files inspected
                       </span>
                     </div>
 
                     <div className="space-y-3">
                       {analysisResult.git_diff_findings.map((df, idx) => (
-                        <div key={idx} className="p-3.5 rounded-xl border border-[#E5E4DE] bg-[#F7F6F2] space-y-2 text-xs">
+                        <div key={idx} className="p-3.5 rounded-xs border border-[#E5E7EB] bg-[#FAFAF9] space-y-2 text-xs">
                           <div className="flex items-center justify-between font-mono">
-                            <span className="font-bold text-[#17243A]">{df.file_path}</span>
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                              df.relevance_score === 'high' ? 'bg-red-100 text-red-800' : 'bg-slate-200 text-slate-800'
+                            <span className="font-bold text-[#111827]">{df.file_path}</span>
+                            <span className={`px-2 py-0.5 rounded-xs text-[10px] font-bold ${
+                              df.relevance_score === 'high' ? 'bg-amber-100 text-amber-800' : 'bg-slate-200 text-slate-800'
                             }`}>
                               Relevance: {df.relevance_score.toUpperCase()}
                             </span>
                           </div>
-                          <p className="text-[#64748B] leading-relaxed">
+                          <p className="text-[#4B5563] leading-relaxed">
                             {df.relevance_reason}
                           </p>
                           {df.highlighted_lines?.length > 0 && (
-                            <div className="p-2 rounded bg-[#0F172A] text-[#CBD5E1] font-mono text-[10px] space-y-0.5">
+                            <div className="p-2 rounded-xs bg-[#111827] text-[#E5E7EB] font-mono text-[10px] space-y-0.5">
                               {df.highlighted_lines.map((l, lIdx) => (
                                 <div key={lIdx} className="truncate">{l}</div>
                               ))}

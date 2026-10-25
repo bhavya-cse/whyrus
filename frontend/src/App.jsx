@@ -26,7 +26,7 @@ export default function App() {
       setTimeout(() => {
         const el = document.querySelector(sectionId);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      }, 120);
     } else {
       const el = document.querySelector(sectionId);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -34,12 +34,12 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F6F2] text-[#17243A]">
+    <div className="min-h-screen flex flex-col bg-[#FAFAF9] text-[#111827]">
       {/* Universal Responsive Navbar */}
       <Navbar 
         currentView={currentView}
         setCurrentView={setCurrentView}
-        onOpenDemo={() => handleNavigateSection('#demo')}
+        onOpenDemo={() => handleNavigateSection('#sample')}
       />
 
       {/* Main Content Area */}
@@ -48,7 +48,7 @@ export default function App() {
           <>
             <Hero 
               onStartAnalysis={() => handleOpenAnalyzer(null)}
-              onExploreWorks={() => handleNavigateSection('#how-it-works')}
+              onExploreWorks={() => handleNavigateSection('#workflow')}
             />
             <ProblemSolution 
               onOpenAnalyzer={() => handleOpenAnalyzer(null)}
