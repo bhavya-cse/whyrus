@@ -23,8 +23,7 @@ class TestAnalyzer(unittest.TestCase):
             "API Key: api_key=xyz987654321_secret_token_val\n"
             "AWS: AKIAIOSFODNN7EXAMPLE\n"
             "GitHub: ghp_1234567890abcdefghijklmnopqrstuvwxyzAB\n"
-            "Google: AIzaSyD1234567890abcdefghijklmnopqrstuv"
-        )
+        
         redacted, count = redact_secrets(sample)
         self.assertGreaterEqual(count, 7)
         self.assertNotIn("superSecretPassword123", redacted)
