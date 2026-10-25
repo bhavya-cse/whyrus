@@ -1,80 +1,233 @@
+
 @import "tailwindcss";
+
+/* =========================================================
+   WHYRUS DESIGN SYSTEM — ROYAL PLUM
+   ========================================================= */
 
 @layer base {
   :root {
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, sans-serif;
     --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    
-    /* Deloitte-inspired Warm Editorial & Vivid Lime Palette */
-    --color-bg-base: #FAFAF9;          /* Warm white / light neutral canvas */
-    --color-bg-surface: #FFFFFF;       /* Pure white editorial cards */
-    --color-bg-subtle: #F4F4F2;        /* Subtle section divider background */
-    --color-bg-muted: #EBEBE8;         /* Controlled light grey */
-    
-    --color-text-primary: #111827;     /* Deep charcoal / near black */
-    --color-text-secondary: #4B5563;   /* Slate body grey */
-    --color-text-muted: #6B7280;       /* Secondary metadata grey */
-    --color-text-faint: #9CA3AF;       /* Tertiary caption grey */
-    
-    --color-accent-lime: #8CE800;      /* Signature Vivid Lime Green */
-    --color-accent-lime-hover: #78D000;
-    --color-accent-lime-subtle: #F4FBE8;
-    --color-accent-lime-border: #D3F49A;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo,
+      Monaco, Consolas, monospace;
 
-    --color-border-hairline: #E5E7EB;  /* Editorial 1px dividers */
+    /* Light surfaces */
+    --color-bg-base: #FAFAF9;
+    --color-bg-surface: #FFFFFF;
+    --color-bg-subtle: #F4F4F2;
+    --color-bg-muted: #EBEBE8;
+
+    /* Text */
+    --color-text-primary: #111827;
+    --color-text-secondary: #4B5563;
+    --color-text-muted: #6B7280;
+    --color-text-faint: #9CA3AF;
+
+    /* Royal Plum */
+    --color-accent-purple: #713F75;
+    --color-accent-purple-hover: #572F5B;
+    --color-accent-purple-subtle: #F7EFF8;
+    --color-accent-purple-border: #E4CDE6;
+
+    /* Borders */
+    --color-border-hairline: #E5E7EB;
     --color-border-strong: #D1D5DB;
     --color-border-dark: #1F2937;
-    
-    --color-status-error: #DC2626;     /* Restrained red for actual errors */
+
+    /* Status colors remain distinct from branding */
+    --color-status-error: #DC2626;
     --color-status-error-bg: #FEF2F2;
     --color-status-error-border: #FECACA;
-    
-    --color-status-warn: #D97706;      /* Restrained amber for warnings */
+
+    --color-status-warn: #D97706;
     --color-status-warn-bg: #FFFBEB;
     --color-status-warn-border: #FDE68A;
-    
+
     --color-status-info: #0284C7;
     --color-status-info-bg: #F0F9FF;
   }
 
+  /* Default: light theme */
+  :root,
+  :root[data-theme="light"] {
+    color-scheme: light;
+
+    --page-bg: #FAFAF9;
+    --surface-bg: #FFFFFF;
+    --surface-subtle: #F4F4F2;
+
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --text-muted: #6B7280;
+
+    --border-color: #E5E7EB;
+    --accent-color: #713F75;
+    --accent-hover: #572F5B;
+    --accent-subtle: #F7EFF8;
+    --accent-border: #E4CDE6;
+
+    --scrollbar-track: #F4F4F2;
+    --scrollbar-thumb: #D1D5DB;
+    --scrollbar-thumb-hover: #9CA3AF;
+  }
+
+  /* Optional dark theme */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --page-bg: #111318;
+    --surface-bg: #1B1E25;
+    --surface-subtle: #242832;
+
+    --text-primary: #F9FAFB;
+    --text-secondary: #D1D5DB;
+    --text-muted: #9CA3AF;
+
+    --border-color: #343945;
+    --accent-color: #BB8ABD;
+    --accent-hover: #D3A9D5;
+    --accent-subtle: #302536;
+    --accent-border: #624765;
+
+    --scrollbar-track: #1B1E25;
+    --scrollbar-thumb: #45404A;
+    --scrollbar-thumb-hover: #706477;
+  }
+
+  html {
+    min-height: 100%;
+    background-color: var(--page-bg);
+    color: var(--text-primary);
+    scroll-behavior: smooth;
+  }
+
   body {
-    font-family: var(--font-sans);
-    color: var(--color-text-primary);
-    background-color: var(--color-bg-base);
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    background-color: var(--page-bg);
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.03em;
     font-weight: 700;
   }
 
-  code, pre, kbd, samp {
+  code,
+  pre,
+  kbd,
+  samp {
     font-family: var(--font-mono);
+  }
+
+  #root {
+    min-height: 100vh;
+    background-color: var(--page-bg);
+    color: var(--text-primary);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input,
+  textarea,
+  select {
+    color: var(--text-primary);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-muted);
   }
 }
 
-/* Editorial Keyframe Animations */
+/* =========================================================
+   THEME UTILITY CLASSES
+   ========================================================= */
+
+.app-shell {
+  min-height: 100vh;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.theme-surface {
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+}
+
+.theme-subtle {
+  background-color: var(--surface-subtle);
+  color: var(--text-primary);
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+
+.theme-border {
+  border-color: var(--border-color);
+}
+
+/* Keep shared borders theme-aware without forcing section backgrounds. */
+.app-shell header,
+.app-shell footer,
+.app-shell section {
+  border-color: var(--border-color);
+}
+
+/* =========================================================
+   ROYAL PLUM ANIMATIONS
+   ========================================================= */
+
 @keyframes traceDraw {
   0% {
     stroke-dashoffset: 80;
   }
+
   100% {
     stroke-dashoffset: 0;
   }
 }
 
-@keyframes limePulse {
-  0%, 100% {
+@keyframes purplePulse {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.15);
     opacity: 0.85;
@@ -86,9 +239,44 @@
     opacity: 0;
     transform: translateY(16px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes whyrusEventIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes whyrusPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes whyrusEvidenceFill {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 88%;
   }
 }
 
@@ -97,40 +285,102 @@
   animation: traceDraw 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.pulse-lime {
+.pulse-purple {
   transform-origin: center;
-  animation: limePulse 3s ease-in-out infinite;
+  animation: purplePulse 3s ease-in-out infinite;
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Custom Editorial Scrollbars */
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #F4F4F2;
-}
-::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background: var(--scrollbar-track);
 }
 
-/* Accessibility: Respect reduced motion */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* =========================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-delay: -1ms !important;
-    animation-duration: 1ms !important;
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    background-attachment: initial !important;
     scroll-behavior: auto !important;
-    transition-duration: 0s !important;
-    transition-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
+
+  .whyrus-hero-animation {
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   DARK MODE FORM CONTROLS
+   ========================================================= */
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Preserve readable white text on Royal Plum primary buttons. */
+html[data-theme="dark"] .app-shell button[class*="bg-[#713F75]"],
+html[data-theme="dark"] .app-shell button[class*="bg-[#572F5B]"] {
+  color: #FFFFFF;
+}
+
+/* Smooth theme changes */
+html,
+body,
+#root,
+.app-shell,
+.app-shell header,
+.app-shell footer,
+.app-shell section {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Whyrus — Soft Royal Plum text selection */
+::selection {
+  background-color: rgba(113, 63, 117, 0.35);
+  color: inherit;
+}
+
+::-moz-selection {
+  background-color: rgba(113, 63, 117, 0.35);
+  color: inherit;
 }

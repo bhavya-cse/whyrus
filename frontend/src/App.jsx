@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProblemSolution from './components/ProblemSolution';
 import HowItWorks from './components/HowItWorks';
-import InteractiveDemo from './components/InteractiveDemo';
 import CoreCapabilities from './components/CoreCapabilities';
 import TargetAudience from './components/TargetAudience';
 import TrustAndEthics from './components/TrustAndEthics';
@@ -11,8 +11,31 @@ import Footer from './components/Footer';
 import AnalyzerWorkstation from './components/AnalyzerWorkstation';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('marketing'); // 'marketing' | 'analyze'
+  const [currentView, setCurrentView] = useState('marketing');
   const [activePresetId, setActivePresetId] = useState(null);
+
+  const [theme, setTheme] = useState(() => {
+    try {
+      const savedTheme = localStorage.getItem('whyrus-theme');
+      return savedTheme === 'dark' ? 'dark' : 'light';
+    } catch {
+      return 'light';
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+
+    try {
+      localStorage.setItem('whyrus-theme', theme);
+    } catch {
+      // The app still works if browser storage is unavailable.
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((current) => (current === 'light' ? 'dark' : 'light'));
+  };
 
   const handleOpenAnalyzer = (presetId = null) => {
     setActivePresetId(presetId);
@@ -23,60 +46,83 @@ export default function App() {
   const handleNavigateSection = (sectionId) => {
     if (currentView === 'analyze') {
       setCurrentView('marketing');
+
       setTimeout(() => {
-        const el = document.querySelector(sectionId);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        const element = document.querySelector(sectionId);
+
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }, 120);
     } else {
-      const el = document.querySelector(sectionId);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      const element = document.querySelector(sectionId);
+
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAF9] text-[#111827]">
-      {/* Universal Responsive Navbar */}
-      <Navbar 
+    <div
+      className="app-shell min-h-screen flex flex-col transition-colors duration-200"
+      style={{
+        backgroundColor: 'var(--page-bg)',
+        color: 'var(--text-primary)',
+      }}
+    >
+      <Navbar
         currentView={currentView}
         setCurrentView={setCurrentView}
         onOpenDemo={() => handleNavigateSection('#sample')}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1">
+      <main
+        className="flex-1"
+        style={{
+          backgroundColor: 'var(--page-bg)',
+          color: 'var(--text-primary)',
+        }}
+      >
         {currentView === 'marketing' ? (
           <>
-            <Hero 
+            <Hero
               onStartAnalysis={() => handleOpenAnalyzer(null)}
               onExploreWorks={() => handleNavigateSection('#workflow')}
             />
-            <ProblemSolution 
+
+            <ProblemSolution
               onOpenAnalyzer={() => handleOpenAnalyzer(null)}
             />
-            <HowItWorks 
+
+            <HowItWorks
               onOpenAnalyzer={() => handleOpenAnalyzer(null)}
             />
-            <InteractiveDemo 
-              onLoadIntoLiveAnalyzer={(presetId) => handleOpenAnalyzer(presetId)}
-            />
-            <CoreCapabilities 
+
+            <CoreCapabilities
               onOpenAnalyzer={() => handleOpenAnalyzer(null)}
             />
-            <TargetAudience 
+
+            <TargetAudience
               onOpenAnalyzer={() => handleOpenAnalyzer(null)}
             />
+
             <TrustAndEthics />
           </>
         ) : (
-          <AnalyzerWorkstation 
+          <AnalyzerWorkstation
             initialPresetId={activePresetId}
-            onBackToMarketing={() => setCurrentView('marketing')}
+            onBackToMarketing={() => {
+              setCurrentView('marketing');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           />
         )}
       </main>
 
-      {/* Universal Footer */}
-      <Footer 
+      <Footer
         onOpenAnalyzer={() => handleOpenAnalyzer(null)}
         onNavigateSection={handleNavigateSection}
       />
