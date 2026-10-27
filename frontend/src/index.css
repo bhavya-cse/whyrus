@@ -384,3 +384,21 @@ body,
   background-color: rgba(113, 63, 117, 0.35);
   color: inherit;
 }
+
+h1 .whyrus-highlight {
+  display: inline;
+  color: inherit !important;
+  background: linear-gradient(
+    to bottom,
+    transparent 56%,
+    #A7E8DF 56%,
+    #A7E8DF 94%,
+    transparent 94%
+  ) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  padding: 0 0.06em 0.04em !important;
+  border-radius: 0.06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
