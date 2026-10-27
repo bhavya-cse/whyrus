@@ -1,0 +1,190 @@
+
+/* =========================================
+   WHYRUS — BOLD SPOTLIGHT WORD ANIMATION
+   ========================================= */
+
+.hero-word-slot {
+  width: 100%;
+  max-width: 560px;
+  min-height: 105px;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-word-slot .whyrus-word-animation {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow: visible;
+}
+
+.hero-word-slot .word-animation-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 10px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+
+.hero-word-slot .word-live-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #713F75;
+  box-shadow: 0 0 0 4px rgb(113 63 117 / 12%);
+  animation: whyrus-pulse 2s ease-in-out infinite;
+}
+
+.hero-word-slot .word-animation-stage {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 55px;
+  overflow: visible;
+}
+
+.hero-word-slot .animated-word {
+  grid-area: 1 / 1;
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--text-primary);
+  font-size: clamp(36px, 4.2vw, 52px);
+  font-weight: 850;
+  line-height: 1.05;
+  letter-spacing: -2.4px;
+  opacity: 0;
+  transform: translateY(13px);
+  filter: blur(4px);
+  transition:
+    opacity 400ms ease,
+    transform 550ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    filter 400ms ease;
+  pointer-events: none;
+}
+
+/* Spotlight emphasis */
+.hero-word-slot .animated-word::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 0;
+  height: 4px;
+  border-radius: 4px;
+  background: #713F75;
+  box-shadow: 0 0 14px rgb(113 63 117 / 30%);
+  transition: width 650ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.hero-word-slot .animated-word.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.hero-word-slot .animated-word.is-active::after {
+  width: 100%;
+}
+
+/* Keep the rotating words visually bold */
+.hero-word-slot .animated-word:nth-child(even) {
+  color: #713F75;
+}
+
+.hero-word-slot .word-animation-caption {
+  margin: 17px 0 0;
+  max-width: 360px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.hero-word-slot .word-animation-progress {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 11px;
+}
+
+.hero-word-slot .word-animation-progress span {
+  display: block;
+  width: 13px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--border-color);
+  transition:
+    width 350ms ease,
+    background 350ms ease;
+}
+
+.hero-word-slot .word-animation-progress span.is-active {
+  width: 29px;
+  background: #713F75;
+}
+
+@keyframes whyrus-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgb(113 63 117 / 10%);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgb(113 63 117 / 5%);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-word-slot {
+    min-height: 95px;
+    margin-bottom: 14px;
+  }
+
+  .hero-word-slot .animated-word {
+    font-size: clamp(32px, 8vw, 42px);
+    letter-spacing: -1.6px;
+  }
+
+  .hero-word-slot .word-animation-eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word-slot .animated-word,
+  .hero-word-slot .animated-word::after,
+  .hero-word-slot .word-animation-progress span {
+    transition: none;
+    filter: none;
+  }
+
+  .hero-word-slot .word-live-dot {
+    animation: none;
+  }
+}
+
+/* Continuous marker highlight for Whyrus headline */
+h1 .whyrus-highlight {
+  display: inline;
+  color: inherit !important;
+  background: linear-gradient(
+    to bottom,
+    transparent 56%,
+    #A7E8DF 56%,
+    #A7E8DF 94%,
+    transparent 94%
+  ) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  padding: 0 0.06em 0.04em !important;
+  border-radius: 0.06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
