@@ -359,6 +359,6 @@ Contributions, bug reports, and suggestions are welcome.
 
 Check the repository for a `LICENSE` file before redistributing or reusing this project. If no license is present, do not assume that the code is open-source licensed.
 
----
+---_
 
 **Whyrus — Understand the failure. Find the reason.**
