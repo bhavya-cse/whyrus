@@ -47,10 +47,9 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
             className="text-base sm:text-lg font-normal leading-relaxed"
             style={{ color: 'var(--text-secondary)' }}
           >
-            Modern distributed systems fail across multiple components
-            simultaneously. A single upstream failure cascades into dozens
-            of downstream alerts, leaving engineers to manually reassemble
-            disparate clues under production pressure.
+            Distributed systems fail across multiple components at once. A
+            single upstream error triggers cascading alerts, forcing engineers
+            to piece together clues under pressure.
           </p>
         </div>
 
@@ -99,8 +98,8 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                     className="text-xs leading-relaxed"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    Events are scattered across microservices, database
-                    clusters, and message queues without unified correlation IDs.
+                    Events scatter across services, databases, and queues
+                    without unified correlation IDs.
                   </p>
                 </div>
 
@@ -122,8 +121,8 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                     className="text-xs leading-relaxed"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    A connection pool exhaustion triggers 50 HTTP 500 errors.
-                    Debugging the 500s treats symptoms rather than the root exhaustion.
+                    Connection pool exhaustion triggers dozens of 500 errors,
+                    diverting focus toward downstream symptoms.
                   </p>
                 </div>
 
@@ -131,9 +130,9 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                   className="p-4 rounded-xs border space-y-1"
                   style={{
                     backgroundColor: 'var(--surface-bg)',
-                    borderColor: 'var(--border-color)',
-                  }}
-                >
+                  borderColor: 'var(--border-color)',
+                }}
+              >
                   <div
                     className="flex items-center space-x-2 text-xs font-mono font-semibold"
                     style={{ color: 'var(--text-primary)' }}
@@ -145,9 +144,8 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                     className="text-xs leading-relaxed"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    Stack traces capture where execution stopped, not the
-                    condition that triggered it. Recent Git merges are often
-                    falsely blamed without evidence.
+                    Stack traces reveal where execution stopped, not why it failed,
+                    while recent merges are blamed without proof.
                   </p>
                 </div>
 
@@ -197,10 +195,9 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                 className="text-sm leading-relaxed"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                Whyrus structures incident investigation systematically:
-                reconstructing the chronological timeline, separating observed
-                facts from speculative assumptions, and synthesizing ranked
-                hypotheses with verifiable next steps.
+                Whyrus structures investigations systematically: building
+                chronological timelines, separating observed facts from assumptions,
+                and ranking root-cause hypotheses with verifiable steps.
               </p>
 
               {/* Three Structured Capabilities */}
@@ -221,8 +218,8 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                     className="text-xs leading-relaxed"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    Extracts chronological timelines to separate the primary
-                    trigger from secondary cascading noise.
+                    Builds chronological timelines to separate the root trigger
+                    from cascading noise.
                   </p>
                 </div>
 
@@ -241,8 +238,8 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                     className="text-xs leading-relaxed"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    Evaluates plausible causes based on evidence directness,
-                    acknowledging missing telemetry explicitly.
+                    Ranks plausible causes by evidence directness while highlighting
+                    missing telemetry.
                   </p>
                 </div>
 
@@ -261,8 +258,8 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                     className="text-xs leading-relaxed"
                     style={{ color: 'var(--text-secondary)' }}
                   >
-                    Correlates recent configuration diffs with observed error
-                    timestamps to isolate risky changes.
+                    Correlates recent code and config changes with error onset
+                    times to flag risky commits.
                   </p>
                 </div>
 
@@ -282,9 +279,8 @@ export default function ProblemSolution({ onOpenAnalyzer }) {
                   <strong className="text-[#572F5B]">
                     Strict Fact Distinction:
                   </strong>{' '}
-                  Whyrus never reports hypotheses as confirmed facts. Every
-                  cause includes missing evidence needed for definitive proof
-                  and concrete inspection steps.
+                  Hypotheses are never presented as confirmed facts. Every ranked
+                  cause identifies required missing telemetry and concrete verification steps.
                 </p>
               </div>
 
