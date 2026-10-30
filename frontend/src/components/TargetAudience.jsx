@@ -2,10 +2,8 @@
 import React from 'react';
 import {
   Code2,
-  GraduationCap,
-  CheckCircle,
-  Users,
   Server,
+  GraduationCap,
 } from 'lucide-react';
 
 export default function TargetAudience({ onOpenAnalyzer }) {
@@ -16,7 +14,7 @@ export default function TargetAudience({ onOpenAnalyzer }) {
       icon: Code2,
       tag: 'Deep Debugging',
       benefit:
-        'Bypass wall-of-text log parsing. Whyrus correlates stack traces with prior warnings and database logs so you can pinpoint whether an exception was caused by bad input or upstream dependency degradation.',
+        'Bypass wall-of-text log parsing. Whyrus correlates stack traces with prior warnings and database logs to determine whether an exception stems from bad input or upstream dependency failure.',
     },
     {
       title: 'DevOps & SRE Teams',
@@ -24,31 +22,15 @@ export default function TargetAudience({ onOpenAnalyzer }) {
       icon: Server,
       tag: 'MTTR Reduction',
       benefit:
-        'Rapidly isolate cascading outages. When multiple alerts trigger at once during an incident, Whyrus identifies the earliest fatal trigger to stop teams from chasing downstream symptoms.',
+        'Rapidly isolate cascading outages. When multiple alerts trigger simultaneously, Whyrus identifies the initial trigger event to stop teams from chasing downstream symptoms.',
     },
     {
-      title: 'CS Students & Junior Engineers',
-      role: 'Accelerated Learning',
+      title: 'Students & QA Engineers',
+      role: 'Forensic Skills & Verification',
       icon: GraduationCap,
-      tag: 'Debug Intuition',
+      tag: 'Verification & Learning',
       benefit:
-        'Master forensic debugging without getting overwhelmed. Learn how to reconstruct incident timelines, distinguish observed facts from hypotheses, and form disciplined troubleshooting habits.',
-    },
-    {
-      title: 'QA & Test Engineers',
-      role: 'Defect Verification',
-      icon: CheckCircle,
-      tag: 'High-Fidelity Bug Reports',
-      benefit:
-        'Turn flaky test logs and staging crash dumps into structured incident summaries. Provide development teams with exact timeline sequences and reproducible verification checks.',
-    },
-    {
-      title: 'Small Engineering Teams',
-      role: 'Lean Engineering Orgs',
-      icon: Users,
-      tag: 'Incident Clarity',
-      benefit:
-        'Get enterprise-grade root-cause analysis without requiring dedicated 24/7 on-call tier-3 specialists. Paste staging or production crash logs and receive immediate, structured next steps.',
+        'Turn crash dumps and flaky test logs into structured incident timelines. Learn disciplined forensic debugging habits while providing development teams with reproducible verification steps.',
     },
   ];
 
@@ -94,15 +76,13 @@ export default function TargetAudience({ onOpenAnalyzer }) {
 
         {/* Audience Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {audiences.map((aud, index) => {
+          {audiences.map((aud) => {
             const Icon = aud.icon;
 
             return (
               <div
                 key={aud.title}
-                className={`rounded-xs p-7 border shadow-2xs flex flex-col justify-between transition-all duration-200 hover:border-[#713F75] hover:shadow-sm ${
-                  index === 4 ? 'md:col-span-2 lg:col-span-1' : ''
-                }`}
+                className="rounded-xs p-7 border shadow-2xs flex flex-col justify-between transition-all duration-200 hover:border-[#713F75] hover:shadow-sm"
                 style={{
                   backgroundColor: 'var(--surface-subtle)',
                   borderColor: 'var(--border-color)',
