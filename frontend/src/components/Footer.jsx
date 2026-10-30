@@ -79,8 +79,8 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
               style={{ color: 'var(--text-secondary)' }}
             >
               An evidence-led root-cause analysis platform for software
-              engineers, DevOps teams, and students. Connecting logs, errors,
-              timelines, and code changes into explainable forensic conclusions.
+              developers, DevOps &amp; SRE teams, and students &amp; QA engineers.
+              Connecting logs, errors, timelines, and code changes into explainable forensic conclusions.
             </p>
 
             <div
@@ -139,22 +139,6 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
               <li>
                 <button
                   type="button"
-                  onClick={() => onNavigateSection('#sample')}
-                  className="transition-colors hover:underline"
-                  onMouseEnter={(event) => {
-                    event.currentTarget.style.color = 'var(--accent-color)';
-                  }}
-                  onMouseLeave={(event) => {
-                    event.currentTarget.style.color = '';
-                  }}
-                >
-                  Sample Incident Preview
-                </button>
-              </li>
-
-              <li>
-                <button
-                  type="button"
                   onClick={() => onNavigateSection('#capabilities')}
                   className="transition-colors hover:underline"
                   onMouseEnter={(event) => {
@@ -164,7 +148,7 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
                     event.currentTarget.style.color = '';
                   }}
                 >
-                  Core Capabilities
+                  Platform Capabilities
                 </button>
               </li>
 
@@ -180,7 +164,7 @@ export default function Footer({ onOpenAnalyzer, onNavigateSection }) {
                     event.currentTarget.style.color = '';
                   }}
                 >
-                  Evidence &amp; Trust Axioms
+                  Evidence, Rigor &amp; Transparency
                 </button>
               </li>
             </ul>
