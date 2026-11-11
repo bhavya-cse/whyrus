@@ -1,9 +1,7 @@
 
 import React from 'react';
 import {
-  ShieldAlert,
   HelpCircle,
-  EyeOff,
   Scale,
   AlertTriangle,
 } from 'lucide-react';
@@ -32,22 +30,7 @@ export default function TrustAndEthics() {
       statement:
         'Confidence labels reflect evidence completeness, not uncalibrated probabilities.',
       description:
-        'Labels like High, Moderate, Plausible, and Preliminary indicate how many independent signals support the hypothesis and whether contradictory evidence exists.',
-    },
-    {
-      title: 'Incomplete Logs Lead to Preliminary Conclusions',
-      icon: ShieldAlert,
-      statement: 'The engine is only as good as the evidence supplied.',
-      description:
-        "If debug logs or metrics are omitted, Whyrus explicitly identifies 'Missing Telemetry' needed to confirm the root cause before recommending irreversible production actions.",
-    },
-    {
-      title: 'Strict Credential Redaction',
-      icon: EyeOff,
-      statement:
-        'Sensitive tokens, passwords, and keys are scrubbed by default.',
-      description:
-        'JWTs, Bearer headers, database passwords, and AWS credentials are automatically masked into [REDACTED] tokens before processing or external AI synthesis.',
+        'Labels like High, Moderate, and Plausible indicate how many independent signals support the hypothesis and whether contradictory evidence exists.',
     },
   ];
 
@@ -97,21 +80,14 @@ export default function TrustAndEthics() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {principles.map((principle, idx) => {
             const Icon = principle.icon;
-            const isFeatured = idx === 0;
 
             return (
               <div
                 key={principle.title}
-                className={`p-7 rounded-xs border transition-all duration-200 flex flex-col justify-between hover:border-[#713F75] ${
-                  isFeatured ? 'lg:col-span-2' : ''
-                }`}
+                className="p-7 rounded-xs border transition-all duration-200 flex flex-col justify-between hover:border-[#713F75]"
                 style={{
-                  backgroundColor: isFeatured
-                    ? 'var(--surface-subtle)'
-                    : 'var(--surface-bg)',
-                  borderColor: isFeatured
-                    ? '#E4CDE6'
-                    : 'var(--border-color)',
+                  backgroundColor: 'var(--surface-bg)',
+                  borderColor: 'var(--border-color)',
                 }}
               >
                 <div className="space-y-3">

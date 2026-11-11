@@ -5,8 +5,6 @@ import {
   ShieldCheck,
   Cpu,
   GitBranch,
-  Sparkles,
-  SearchCheck,
 } from 'lucide-react';
 
 const cardStyle = {
@@ -85,11 +83,11 @@ export default function CoreCapabilities({ onOpenAnalyzer }) {
           </p>
         </div>
 
-        {/* Capability Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+        {/* Four Capability Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
           {/* Chronological Incident Reconstruction */}
           <div
-            className="md:col-span-8 rounded-md p-8 border shadow-xs flex flex-col justify-between"
+            className="rounded-md p-7 sm:p-8 border shadow-xs flex flex-col justify-between"
             style={cardStyle}
           >
             <div className="space-y-4">
@@ -115,13 +113,13 @@ export default function CoreCapabilities({ onOpenAnalyzer }) {
               </div>
 
               <p
-                className="text-sm leading-relaxed max-w-2xl"
+                className="text-sm leading-relaxed"
                 style={secondaryTextStyle}
               >
                 Raw logs are parsed into an ordered timeline with individual
-                Evidence IDs (E-01, E-02). Multiline stack traces are
-                automatically folded into parent events, exposing the exact
-                chronological progression from initial trigger to downstream crash.
+                Evidence IDs (E-01, E-02). Multiline stack traces fold into
+                parent events, exposing the exact chronological sequence from
+                initial trigger to downstream crash.
               </p>
 
               {/* Example Timeline */}
@@ -156,7 +154,7 @@ export default function CoreCapabilities({ onOpenAnalyzer }) {
             </div>
 
             <div
-              className="pt-6 mt-6 border-t text-xs font-mono"
+              className="pt-4 mt-4 border-t text-xs font-mono"
               style={{
                 borderColor: 'var(--border-color)',
                 color: 'var(--text-muted)',
@@ -168,32 +166,42 @@ export default function CoreCapabilities({ onOpenAnalyzer }) {
 
           {/* Automated Secret Redaction */}
           <div
-            className="md:col-span-4 rounded-md p-7 border shadow-xs flex flex-col justify-between"
+            className="rounded-md p-7 sm:p-8 border shadow-xs flex flex-col justify-between"
             style={cardStyle}
           >
             <div className="space-y-4">
-              <div
-                className="w-9 h-9 rounded-xs border flex items-center justify-center"
-                style={iconBoxStyle}
-              >
-                <ShieldCheck className="w-5 h-5" style={iconStyle} />
+              <div className="flex items-center space-x-3">
+                <div
+                  className="w-9 h-9 rounded-xs border flex items-center justify-center"
+                  style={iconBoxStyle}
+                >
+                  <ShieldCheck className="w-5 h-5" style={iconStyle} />
+                </div>
+
+                <div>
+                  <h3 className="font-heading font-bold text-xl">
+                    Automated Secret Redaction
+                  </h3>
+                  <span
+                    className="text-xs font-mono"
+                    style={mutedTextStyle}
+                  >
+                    Client & Backend Data Scrubbing
+                  </span>
+                </div>
               </div>
 
-              <h3 className="font-heading font-bold text-xl">
-                Automated Secret Redaction
-              </h3>
-
               <p
-                className="text-xs leading-relaxed"
+                className="text-sm leading-relaxed"
                 style={secondaryTextStyle}
               >
-                Client and backend redaction masks JWTs, Bearer tokens, DB
-                connection passwords, and cloud API keys before data enters
-                parsing or optional AI processing.
+                Sensitive tokens, Bearer headers, database passwords, and cloud API
+                keys are automatically masked into [REDACTED] tokens before data
+                enters parsing or external AI synthesis.
               </p>
 
               <div
-                className="p-3 rounded-xs border font-mono text-[11px] break-words"
+                className="p-3.5 rounded-xs border font-mono text-xs break-words"
                 style={plumPanelStyle}
               >
                 Authorization: Bearer{' '}
@@ -202,169 +210,134 @@ export default function CoreCapabilities({ onOpenAnalyzer }) {
             </div>
 
             <div
-              className="text-xs font-mono font-semibold pt-4 mt-4 border-t"
+              className="pt-4 mt-4 border-t text-xs font-mono font-semibold"
               style={{
                 color: 'var(--accent-color)',
                 borderColor: 'var(--border-color)',
               }}
             >
-              Privacy First Architecture
+              Privacy First: No unmasked secrets leave your browser or pipeline.
             </div>
           </div>
 
-          {/* Explainable Hypothesis Ranking */}
+          {/* Explainable Root-Cause Ranking */}
           <div
-            className="md:col-span-4 rounded-md p-7 border shadow-xs flex flex-col justify-between"
+            className="rounded-md p-7 sm:p-8 border shadow-xs flex flex-col justify-between"
             style={cardStyle}
           >
             <div className="space-y-4">
-              <div
-                className="w-9 h-9 rounded-xs border flex items-center justify-center"
-                style={iconBoxStyle}
-              >
-                <Cpu className="w-5 h-5" style={iconStyle} />
+              <div className="flex items-center space-x-3">
+                <div
+                  className="w-9 h-9 rounded-xs border flex items-center justify-center"
+                  style={iconBoxStyle}
+                >
+                  <Cpu className="w-5 h-5" style={iconStyle} />
+                </div>
+
+                <div>
+                  <h3 className="font-heading font-bold text-xl">
+                    Explainable Root-Cause Ranking
+                  </h3>
+                  <span
+                    className="text-xs font-mono"
+                    style={mutedTextStyle}
+                  >
+                    Evidence Directness & Telemetry Checks
+                  </span>
+                </div>
               </div>
 
-              <h3 className="font-heading font-bold text-xl">
-                Explainable Hypothesis Ranking
-              </h3>
-
               <p
-                className="text-xs leading-relaxed"
+                className="text-sm leading-relaxed"
                 style={secondaryTextStyle}
               >
-                Scores plausible causes based on evidence directness and
-                chronological priority. Every hypothesis points directly to
-                observed Evidence IDs rather than guesswork.
+                Ranks plausible causes based on direct evidence and chronological
+                precedence. Explicitly identifies missing telemetry required for
+                confirmation before recommending irreversible production actions.
               </p>
+
+              <div
+                className="p-3.5 rounded-xs border text-xs font-mono font-medium"
+                style={subtlePanelStyle}
+              >
+                Evidence Strength: High (88%) • Missing Telemetry: DB pool metrics
+              </div>
             </div>
 
             <div
-              className="mt-5 p-2.5 rounded-xs border text-[11px] font-mono font-medium"
-              style={subtlePanelStyle}
+              className="pt-4 mt-4 border-t text-xs font-mono"
+              style={{
+                borderColor: 'var(--border-color)',
+                color: 'var(--text-muted)',
+              }}
             >
-              Evidence Strength: High (88%) • Supporting: E-02, E-03
+              Strict fact distinction: every hypothesis points to observed Evidence IDs.
             </div>
           </div>
 
-          {/* Git Diff Context Correlation */}
+          {/* Git Diff & Evidence Correlation */}
           <div
-            className="md:col-span-4 rounded-md p-7 border shadow-xs flex flex-col justify-between"
+            className="rounded-md p-7 sm:p-8 border shadow-xs flex flex-col justify-between"
             style={cardStyle}
           >
             <div className="space-y-4">
-              <div
-                className="w-9 h-9 rounded-xs border flex items-center justify-center"
-                style={iconBoxStyle}
-              >
-                <GitBranch className="w-5 h-5" style={iconStyle} />
+              <div className="flex items-center space-x-3">
+                <div
+                  className="w-9 h-9 rounded-xs border flex items-center justify-center"
+                  style={iconBoxStyle}
+                >
+                  <GitBranch className="w-5 h-5" style={iconStyle} />
+                </div>
+
+                <div>
+                  <h3 className="font-heading font-bold text-xl">
+                    Git Diff & Evidence Correlation
+                  </h3>
+                  <span
+                    className="text-xs font-mono"
+                    style={mutedTextStyle}
+                  >
+                    Commit & Configuration Analysis
+                  </span>
+                </div>
               </div>
 
-              <h3 className="font-heading font-bold text-xl">
-                Git Diff Context Correlation
-              </h3>
-
               <p
-                className="text-xs leading-relaxed"
+                className="text-sm leading-relaxed"
                 style={secondaryTextStyle}
               >
-                Supply recent commits to correlate configuration alterations
-                (pool sizes, timeouts, port numbers, dependencies) with error
-                onset times in the log timeline.
+                Correlates recent configuration diffs (pool sizes, timeouts, port
+                numbers, dependencies) directly with error onset times in the log
+                timeline to isolate risky changes without false blame.
               </p>
+
+              <div
+                className="p-3.5 rounded-xs border text-xs font-mono break-words"
+                style={subtlePanelStyle}
+              >
+                Detected:{' '}
+                <span className="text-red-700 dark:text-red-300">
+                  - pool_size: 25
+                </span>
+                {' / '}
+                <span
+                  className="font-semibold"
+                  style={{ color: 'var(--accent-color)' }}
+                >
+                  + pool_size: 4
+                </span>
+              </div>
             </div>
 
             <div
-              className="mt-5 p-2.5 rounded-xs border text-[11px] font-mono break-words"
-              style={subtlePanelStyle}
+              className="pt-4 mt-4 border-t text-xs font-mono"
+              style={{
+                borderColor: 'var(--border-color)',
+                color: 'var(--text-muted)',
+              }}
             >
-              Detected:{' '}
-              <span className="text-red-700 dark:text-red-300">
-                - pool_size: 25
-              </span>
-              {' / '}
-              <span
-                className="font-semibold"
-                style={{ color: 'var(--accent-color)' }}
-              >
-                + pool_size: 4
-              </span>
+              Distinguishes coincidental commits from verified incident triggers.
             </div>
-          </div>
-
-          {/* Evidence-Grounded AI Reasoning */}
-          <div
-            className="md:col-span-4 rounded-md p-7 border shadow-xs flex flex-col justify-between"
-            style={cardStyle}
-          >
-            <div className="space-y-4">
-              <div
-                className="w-9 h-9 rounded-xs border flex items-center justify-center"
-                style={iconBoxStyle}
-              >
-                <Sparkles className="w-5 h-5" style={iconStyle} />
-              </div>
-
-              <h3 className="font-heading font-bold text-xl">
-                Evidence-Grounded AI Reasoning
-              </h3>
-
-              <p
-                className="text-xs leading-relaxed"
-                style={secondaryTextStyle}
-              >
-                Powered by Google Gemini with strict prompt constraints: AI can
-                only reference validated Evidence IDs. No hallucinated file
-                paths or phantom log lines.
-              </p>
-            </div>
-
-            <div
-              className="mt-5 text-xs font-mono"
-              style={mutedTextStyle}
-            >
-              Deterministic rule engine fallback always active.
-            </div>
-          </div>
-
-          {/* Actionable Recommendations */}
-          <div
-            className="md:col-span-12 rounded-md p-8 border shadow-xs flex flex-col md:flex-row items-center justify-between gap-6"
-            style={cardStyle}
-          >
-            <div className="space-y-2 max-w-2xl">
-              <div
-                className="flex items-center space-x-2 text-xs font-mono font-bold uppercase tracking-wider"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                <SearchCheck
-                  className="w-4 h-4"
-                  style={iconStyle}
-                />
-                <span>Actionable Recommendations</span>
-              </div>
-
-              <h3 className="font-heading font-bold text-xl">
-                Practical, prioritized next steps developers can actually execute
-              </h3>
-
-              <p
-                className="text-xs leading-relaxed"
-                style={secondaryTextStyle}
-              >
-                Categorized by Immediate Checks, Verification Tests, Code
-                Inspections, and Telemetry Requirements. Whyrus specifies exact
-                queries to run, metrics to inspect, and missing logs to collect.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={onOpenAnalyzer}
-              className="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xs bg-[#713F75] hover:bg-[#572F5B] text-white font-semibold text-xs uppercase tracking-wider transition-colors shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)] focus:ring-offset-2"
-            >
-              Test with Your Incidents
-            </button>
           </div>
         </div>
       </div>

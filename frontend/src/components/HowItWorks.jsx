@@ -12,11 +12,11 @@ export default function HowItWorks({ onOpenAnalyzer }) {
       number: "01",
       title: "Ingest Evidence",
       badge: "Intake & Redaction",
-      summary: "Paste raw logs, upload .log or .txt incident dumps, and supply optional Git diffs or service names.",
+      summary: "Paste raw logs, upload incident dumps, and supply optional Git diffs or service names.",
       details: [
-        "Automated client and server-side secret scrubbing masks JWTs, passwords, and API keys before parsing.",
-        "Accepts multi-source logs: ISO 8601, syslog, log4j, Docker/Kubernetes container streams.",
-        "Optional Git diff parsing flags suspicious alterations in pool sizes, timeouts, and connection ports."
+        "Client and server-side scrubbing masks JWTs, passwords, and API keys before parsing.",
+        "Supports ISO 8601, syslog, log4j, and container log streams.",
+        "Optional Git diff parsing flags suspicious alterations in pool sizes, timeouts, and ports."
       ],
       previewContent: {
         label: "Stage 01 • Evidence Scrubbing & Intake",
@@ -27,11 +27,11 @@ export default function HowItWorks({ onOpenAnalyzer }) {
       number: "02",
       title: "Correlate Events",
       badge: "Parsing & Timelines",
-      summary: "Unstructured logs are parsed into discrete events, multiline stack traces are folded, and an ordered timeline is assembled.",
+      summary: "Parses logs into discrete events, folds stack traces, and builds a unified timeline.",
       details: [
-        "Deterministic parsing assigns unique Evidence IDs (E-01, E-02, E-03) to each event.",
-        "Multiline stack traces are folded directly into their parent error event, eliminating noise.",
-        "Identifies timestamps, service tags, and normalized severities (INFO, WARN, ERROR, CRITICAL)."
+        "Assigns unique Evidence IDs (E-01, E-02) to each observed event.",
+        "Folds multiline stack traces into parent errors to eliminate noise.",
+        "Normalizes timestamps, service tags, and severity levels across sources."
       ],
       previewContent: {
         label: "Stage 02 • Chronological Event Stream",
@@ -42,11 +42,11 @@ export default function HowItWorks({ onOpenAnalyzer }) {
       number: "03",
       title: "Investigate Root Causes",
       badge: "Causality & Ranking",
-      summary: "Connect related failure events, evaluate causality, and rank root-cause hypotheses based on evidence directness.",
+      summary: "Connects failure events, evaluates causality, and ranks root causes by evidence strength.",
       details: [
-        "Separates earliest trigger events from downstream secondary symptoms.",
-        "Calculates calibrated evidence strength scores based on directness of observed signals.",
-        "Explicitly states missing telemetry needed to reach definitive certainty, avoiding false guarantees."
+        "Separates initial trigger events from downstream cascading symptoms.",
+        "Scores hypotheses based on directness of observed signals.",
+        "Highlights missing telemetry needed for definitive certainty."
       ],
       previewContent: {
         label: "Stage 03 • Ranked Root-Cause Hypotheses",
@@ -57,11 +57,11 @@ export default function HowItWorks({ onOpenAnalyzer }) {
       number: "04",
       title: "Validate Recovery",
       badge: "Targeted Next Steps",
-      summary: "Receive prioritized debugging recommendations categorized by immediate checks, verification tests, and code reviews.",
+      summary: "Delivers prioritized debugging steps across immediate checks, verification tests, and code reviews.",
       details: [
-        "Targeted inspection steps to verify or refute each hypothesis quickly.",
-        "Pinpoints specific configuration files, ports, database views, or endpoints.",
-        "Highlights missing monitoring telemetry to prevent repeat outages."
+        "Targeted inspection steps to verify or refute hypotheses quickly.",
+        "Pinpoints specific config files, ports, and database views to inspect.",
+        "Recommends monitoring additions to prevent repeat incidents."
       ],
       previewContent: {
         label: "Stage 04 • Actionable Verification Guidance",
@@ -106,8 +106,8 @@ export default function HowItWorks({ onOpenAnalyzer }) {
             className="text-base sm:text-lg font-normal leading-relaxed"
             style={{ color: 'var(--text-secondary)' }}
           >
-            Four connected stages designed to eliminate guesswork, respect
-            uncertainty, and guide engineering teams directly to resolution.
+            Four connected stages designed to eliminate guesswork and guide
+            engineering teams directly to resolution.
           </p>
         </div>
 
@@ -250,13 +250,13 @@ export default function HowItWorks({ onOpenAnalyzer }) {
                   style={{ color: 'var(--text-secondary)' }}
                 >
                   {activeStage === 0 &&
-                    'Logs are scrubbed of credentials before passing into parsing or external models.'}
+                    'Logs are scrubbed of credentials before passing into parsing or models.'}
                   {activeStage === 1 &&
-                    'Events are arranged sequentially, linking symptoms to original triggers.'}
+                    'Events are arranged chronologically, linking downstream errors to root triggers.'}
                   {activeStage === 2 &&
-                    'Hypotheses remain plausible propositions until verified against telemetry.'}
+                    'Hypotheses remain plausible until validated against concrete telemetry.'}
                   {activeStage === 3 &&
-                    'Developers receive actionable tests instead of generic troubleshooting tips.'}
+                    'Engineers receive targeted inspection commands instead of generic advice.'}
                 </div>
 
                 <div

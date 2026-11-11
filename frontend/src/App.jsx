@@ -74,7 +74,7 @@ export default function App() {
       <Navbar
         currentView={currentView}
         setCurrentView={setCurrentView}
-        onOpenDemo={() => handleNavigateSection('#sample')}
+        onOpenDemo={() => handleNavigateSection('#workflow')}
         theme={theme}
         onToggleTheme={toggleTheme}
       />

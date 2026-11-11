@@ -402,3 +402,110 @@ h1 .whyrus-highlight {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
+
+/* =========================================================
+   WHYRUS ANALYSIS WORKSPACE — COMPLETE DARK MODE
+   ========================================================= */
+
+:root[data-theme="dark"] .why-analyzer {
+  background-color: #0B0F14 !important;
+  color: #F1F5F9 !important;
+}
+
+/* Main cards and panels */
+:root[data-theme="dark"] .why-analyzer [class~="bg-white"] {
+  background-color: #151C26 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="bg-[#FAFAF9]"] {
+  background-color: #101720 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="bg-[#F7EFF8]"] {
+  background-color: #292033 !important;
+}
+
+/* Text colors */
+:root[data-theme="dark"] .why-analyzer [class~="text-[#111827]"],
+:root[data-theme="dark"] .why-analyzer [class~="text-[#1F2937]"] {
+  color: #F1F5F9 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="text-[#4B5563]"],
+:root[data-theme="dark"] .why-analyzer [class~="text-[#374151]"],
+:root[data-theme="dark"] .why-analyzer [class~="text-[#6B7280]"] {
+  color: #A0AAB8 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="text-[#572F5B]"] {
+  color: #C4A5D8 !important;
+}
+
+/* Borders */
+:root[data-theme="dark"] .why-analyzer [class~="border-[#E5E7EB]"],
+:root[data-theme="dark"] .why-analyzer [class~="border-[#D1D5DB]"] {
+  border-color: #293444 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="border-[#E4CDE6]"] {
+  border-color: #554064 !important;
+}
+
+/* Inputs and textareas */
+:root[data-theme="dark"] .why-analyzer input:not([type="checkbox"]),
+:root[data-theme="dark"] .why-analyzer textarea {
+  background-color: #0F151E !important;
+  color: #F1F5F9 !important;
+  border-color: #394658 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer input::placeholder,
+:root[data-theme="dark"] .why-analyzer textarea::placeholder {
+  color: #778396 !important;
+}
+
+/* Hover states */
+:root[data-theme="dark"] .why-analyzer [class~="hover:bg-[#F7EFF8]"]:hover {
+  background-color: #292033 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="hover:border-[#E4CDE6]"]:hover {
+  border-color: #80609A !important;
+}
+
+/* Timeline and secondary elements */
+:root[data-theme="dark"] .why-analyzer [class~="bg-slate-100"],
+:root[data-theme="dark"] .why-analyzer [class~="bg-slate-200"] {
+  background-color: #293444 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="text-slate-700"],
+:root[data-theme="dark"] .why-analyzer [class~="text-slate-800"] {
+  color: #D5DCE6 !important;
+}
+
+:root[data-theme="dark"] .why-analyzer [class~="border-slate-200"] {
+  border-color: #394658 !important;
+}
+
+/* Checkbox */
+:root[data-theme="dark"] .why-analyzer input[type="checkbox"] {
+  accent-color: #A78BFA;
+}
+:root[data-theme="dark"] h1 .whyrus-highlight {
+  display: inline;
+  color: inherit !important;
+  background: linear-gradient(
+    to bottom,
+    transparent 56%,
+    #245E55 56%,
+    #245E55 94%,
+    transparent 94%
+  ) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  padding: 0 0.06em 0.04em !important;
+  border-radius: 0.06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}

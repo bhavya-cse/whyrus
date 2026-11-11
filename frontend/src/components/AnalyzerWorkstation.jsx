@@ -199,7 +199,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF9] py-8 lg:py-12 text-[#111827]">
+    <div className="why-analyzer min-h-screen bg-[#FAFAF9] py-8 lg:py-12 text-[#111827]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         {/* Workstation Header */}
