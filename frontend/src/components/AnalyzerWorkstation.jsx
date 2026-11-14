@@ -37,7 +37,7 @@ export default function AnalyzerWorkstation({
   const [rawLogs, setRawLogs] = useState('');
   const [gitDiff, setGitDiff] = useState('');
   const [serviceContext, setServiceContext] = useState('');
-  const [useAI, setUseAI] = useState(false);
+  const [useAI, setUseAI] = useState(true);
   const [showGitDiffInput, setShowGitDiffInput] = useState(false);
 
   const [redactionPreview, setRedactionPreview] = useState(null);
@@ -220,23 +220,7 @@ ${analysisResult.recommended_actions[0]?.action}: ${analysisResult.recommended_a
             </p>
           </div>
 
-          {/* Quick Presets Menu */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            <div className="text-xs font-mono text-[#6B7280] self-center mr-2 hidden lg:block uppercase tracking-wider">
-              Load Demo Presets:
-            </div>
 
-            {presets.map((preset) => (
-              <button
-                key={preset.id}
-                onClick={() => applyPreset(preset)}
-                className="px-3 py-2 rounded-xs bg-[#FAFAF9] hover:bg-[#F7EFF8] hover:text-[#572F5B] border border-[#E5E7EB] hover:border-[#E4CDE6] text-xs font-mono text-[#111827] transition-all"
-                title={preset.description}
-              >
-                {preset.name.split(' ')[0]} {preset.name.split(' ')[1]}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* INPUT WORKBENCH SECTION */}
