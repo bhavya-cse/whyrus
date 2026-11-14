@@ -46,7 +46,20 @@ def run_gemini_analysis(
         from google import genai
         from google.genai import types
 
-        client = genai.Client(api_key=api_key)
+        client = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(
+                timeout=180000,
+                retry_options=types.HttpRetryOptions(
+                    attempts=2,
+                    initial_delay=1.0,
+                    max_delay=3.0,
+                    exp_base=2.0,
+                    jitter=0.2,
+                    http_status_codes=[408, 429, 500, 502, 503, 504],
+                ),
+            ),
+        )
 
         valid_evidence_ids = set(e.id for e in events)
         events_summary = "\n".join([
@@ -78,6 +91,16 @@ Primary Error: {overview.primary_error}
 Severity: {overview.severity} ({overview.severity_reasoning})
 Service Context: {service_context or 'None supplied'}
 
+REASONING REQUIREMENTS:
+- Reconstruct the incident timeline from the supplied events before ranking causes.
+- Identify the earliest meaningful failure and distinguish it from downstream symptoms.
+- Trace the likely causal chain between observed events. Do not assume that temporal proximity proves causation.
+- Compare competing explanations and explain why the strongest hypothesis ranks above alternatives.
+- Treat Git changes as supporting context only, never as proof that a change caused the incident.
+- Identify contradictions and missing telemetry instead of filling gaps with assumptions.
+- Calibrate confidence conservatively. Do not report certainty when evidence is incomplete.
+- Return concise, evidence-based explanations, not private internal reasoning.
+
 TASK:
 1. Formulate 1 to 3 ranked plausible root-cause hypotheses grounded in the evidence.
 2. For EVERY hypothesis, assign:
@@ -103,15 +126,19 @@ Respond with pure JSON matching this exact structure:
 """
 
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.8-flash',
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
-                temperature=0.2,
+                thinking_config=types.ThinkingConfig(
+                    thinking_level=types.ThinkingLevel.HIGH
+                ),
             )
         )
 
-        response_text = response.text.strip()
+        response_text = (response.text or "").strip()
+        if not response_text:
+            raise ValueError("Gemini returned an empty response.")
         data = json.loads(response_text)
 
         parsed_hypotheses: List[Hypothesis] = []
@@ -127,6 +154,19 @@ Respond with pure JSON matching this exact structure:
 
             filtered_contradictory = [eid for eid in h.get("contradictory_evidence_ids", []) if eid in valid_evidence_ids]
 
+            # Normalize Gemini string responses to the list types required by the schema.
+            raw_verification_checks = h.get("verification_checks", ["Inspect service logs"])
+            if isinstance(raw_verification_checks, str):
+                raw_verification_checks = [raw_verification_checks]
+            elif not isinstance(raw_verification_checks, list):
+                raw_verification_checks = ["Inspect service logs"]
+
+            raw_missing_evidence = h.get("missing_evidence", ["Detailed dependency metrics"])
+            if isinstance(raw_missing_evidence, str):
+                raw_missing_evidence = [raw_missing_evidence]
+            elif not isinstance(raw_missing_evidence, list):
+                raw_missing_evidence = ["Detailed dependency metrics"]
+
             try:
                 hypo = Hypothesis(
                     id=h.get("id", f"H-0{len(parsed_hypotheses)+1}"),
@@ -138,8 +178,8 @@ Respond with pure JSON matching this exact structure:
                     supporting_evidence_ids=filtered_supporting,
                     contradictory_evidence_ids=filtered_contradictory,
                     reason_for_ranking=h.get("reason_for_ranking", "Based on chronological event correlation"),
-                    verification_checks=h.get("verification_checks", ["Inspect service logs"]),
-                    missing_evidence=h.get("missing_evidence", ["Detailed dependency metrics"])
+                    verification_checks=raw_verification_checks,
+                    missing_evidence=raw_missing_evidence
                 )
                 parsed_hypotheses.append(hypo)
             except ValidationError as ve:
