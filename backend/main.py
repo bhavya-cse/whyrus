@@ -35,7 +35,7 @@ app = FastAPI(
 # Explicitly configured origins for development and production environments
 ALLOWED_ORIGINS_RAW = os.environ.get(
     "ALLOWED_ORIGINS",
-    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000"
+    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5178,http://127.0.0.1:5178,http://localhost:3000,http://127.0.0.1:3000"
 )
 ALLOWED_ORIGINS = [o.strip() for o in ALLOWED_ORIGINS_RAW.split(",") if o.strip()]
 
