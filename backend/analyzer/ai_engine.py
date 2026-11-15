@@ -131,7 +131,7 @@ Respond with pure JSON matching this exact structure:
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
                 thinking_config=types.ThinkingConfig(
-                    thinking_level=types.ThinkingLevel.HIGH
+                    thinking_level=types.ThinkingLevel.LOW
                 ),
             )
         )
