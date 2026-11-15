@@ -49,9 +49,9 @@ def run_gemini_analysis(
         client = genai.Client(
             api_key=api_key,
             http_options=types.HttpOptions(
-                timeout=180000,
+                timeout=60000,
                 retry_options=types.HttpRetryOptions(
-                    attempts=2,
+                    attempts=1,
                     initial_delay=1.0,
                     max_delay=3.0,
                     exp_base=2.0,
