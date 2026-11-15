@@ -1,146 +1,62 @@
-# Whyrus — Evidence-Grounded Incident Analysis
+# WhyRus
 
-**Understand the failure. Find the reason.**
+**Find the cause. Restore confidence.**
 
-Whyrus is an incident analysis tool that helps developers investigate application logs, identify likely failure causes, understand incident timelines, and determine what to verify next.
+WhyRus is an evidence-grounded production incident analysis tool that helps engineers investigate application failures using logs, stack traces, service context, and optional Git diffs.
 
-It combines deterministic log parsing and evidence-based analysis with optional AI-assisted reasoning. Its goal is to make incident investigation more structured, explainable, and actionable.
+It combines deterministic analysis with optional Google Gemini-assisted reasoning to identify plausible root causes, explain supporting evidence, and recommend practical verification steps.
 
-## Overview
+## Features
 
-When an application fails, its logs may contain thousands of lines, repeated stack traces, warnings, and unrelated events. Finding the underlying cause can take significant time.
-
-Whyrus helps organize this information into a structured incident report containing:
-
-- A summary of the incident.
-- Parsed errors and relevant log events.
-- A chronological incident timeline.
-- Ranked root-cause hypotheses.
-- Supporting evidence and confidence indicators.
-- Recommended investigation and verification steps.
-- Optional correlation with a Git diff.
-- Actionable recommendations and a report that can be reviewed or shared.
-
-**Important:** Whyrus generates evidence-based hypotheses, not guaranteed diagnoses. Findings should be verified against the actual application, infrastructure, and operational data.
-
-## Key Features
-
-### 1. Log Analysis
-
-- Accepts application logs for incident investigation.
-- Extracts timestamps, severity levels, messages, and relevant events where available.
-- Identifies exceptions and stack traces.
-- Groups related information to make investigations easier to follow.
-- Helps distinguish errors from warnings and informational messages.
-
-### 2. Incident Timeline
-
-Organizes relevant events chronologically to help investigators understand what happened before, during, and after a failure.
-
-### 3. Root-Cause Hypotheses
-
-Ranks possible explanations using available log evidence and deterministic analysis rules.
-
-Each hypothesis should be treated as a candidate explanation rather than a confirmed root cause.
-
-### 4. Evidence and Verification Guidance
-
-Connects proposed explanations to supporting evidence and suggests checks that can help confirm or reject each hypothesis.
-
-### 5. Sensitive Data Redaction
-
-Provides redaction functionality to help prevent secrets and sensitive values from appearing in analysis output.
-
-Redaction is a safeguard, not a guarantee that every sensitive value will be detected. Review data before sharing it.
-
-### 6. Git Diff Correlation
-
-Supports analysis of a supplied Git diff alongside incident logs, helping investigators examine whether recent code changes could be relevant.
-
-A correlation does not establish that a code change caused the incident.
-
-### 7. Optional AI-Assisted Reasoning
-
-Whyrus supports optional Gemini-based reasoning when the relevant API key and dependencies are configured.
-
-When AI is unavailable, the deterministic analysis engine can still provide results where supported.
-
-AI-generated explanations may be incorrect and should be checked against the available evidence.
-
-### 8. Recommendations and Reports
-
-Presents investigation guidance and a structured incident report to support debugging and incident review.
-
-### 9. Presets and Redaction Preview
-
-Includes API functionality for retrieving analysis presets and previewing how sensitive information may be redacted before analysis.
-
-## Architecture
-
-```mermaid
-flowchart TD
-    A[User submits logs] --> B[React frontend]
-    B --> C[FastAPI backend]
-    C --> D[Input validation]
-    D --> E[Redaction and parsing]
-    E --> F[Event extraction]
-    F --> G[Timeline and evidence analysis]
-    G --> H[Ranked hypotheses]
-    H --> I{AI reasoning enabled?}
-    I -- Yes --> J[Optional Gemini reasoning]
-    I -- No --> K[Deterministic analysis]
-    J --> L[Structured incident report]
-    K --> L
-    L --> M[Frontend results]
-```
-
-The exact processing path depends on the input, available configuration, and enabled features.
+- **Structured log parsing** — Converts raw logs into chronological incident timelines.
+- **Root-cause analysis** — Ranks plausible causes using deterministic analysis.
+- **Evidence traceability** — Connects hypotheses to supporting and contradictory evidence IDs.
+- **AI-assisted reasoning** — Uses Google Gemini to enrich incident findings when configured.
+- **Git diff correlation** — Identifies potentially relevant code changes.
+- **Secret redaction** — Detects and redacts sensitive values before analysis.
+- **Actionable recommendations** — Provides verification steps and prioritized actions.
+- **Transparent results** — Reports severity, confidence levels, missing evidence, and parsing warnings.
+- **Deterministic fallback** — Continues to work when Gemini is unavailable or not configured.
 
 ## Technology Stack
 
-### Frontend
+**Frontend**
+- React 19
+- Vite 6
+- Tailwind CSS 4
+- Lucide React
 
-- React
-- Vite
-- Tailwind CSS
-- Lucide React icons
-
-### Backend
-
+**Backend**
 - Python
 - FastAPI
-- Uvicorn
 - Pydantic
-
-### Optional AI Integration
-
-- Google Gen AI SDK
-- Gemini model configured by the application
-
-The deterministic analysis engine does not require a Gemini API key to provide its supported baseline analysis.
+- Google GenAI SDK
 
 ## Project Structure
-
-The main project areas are organized as follows. The precise file layout may vary as the project evolves.
 
 ```text
 whyrus/
 ├── backend/
 │   ├── analyzer/
+│   │   ├── ai_engine.py
+│   │   ├── git_diff.py
 │   │   ├── parser.py
-│   │   └── ...
+│   │   ├── ranker.py
+│   │   └── redactor.py
+│   ├── models/
+│   │   └── schemas.py
 │   ├── tests/
-│   │   └── test_analyzer.py
+│   │   ├── test_analyzer.py
+│   │   ├── test_api.py
+│   │   └── verify_scenarios.py
 │   ├── main.py
 │   ├── requirements.txt
-│   └── ...
+│   └── .env.example
 ├── frontend/
 │   ├── src/
-│   │   └── services/
-│   │       └── api.js
-│   ├── vite.config.js
+│   ├── index.html
 │   ├── package.json
-│   └── ...
+│   └── vite.config.js
 ├── .gitignore
 └── README.md
 ```
@@ -149,216 +65,179 @@ whyrus/
 
 ### Prerequisites
 
-Install the following tools:
+- Python 3.11 or later
+- Node.js and npm
+- Git
 
-- Python 3.10 or later, compatible with the project's dependencies.
-- Node.js and npm.
-- Git.
-
-If you want to use AI-assisted reasoning, you will also need a Gemini API key.
-
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/bhavya-cse/whyrus.git
 cd whyrus
 ```
 
-### 2. Set Up the Backend
+### 2. Set up the backend
 
-Open a terminal in the project directory:
+Create and activate a virtual environment:
+
+```bash
+python3 -m venv backend/.venv
+source backend/.venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+Create your local environment file:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+To enable Gemini-assisted analysis, add your Google Gemini API key to `backend/.env`:
+
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+Gemini is optional. Without a configured key, WhyRus automatically uses its deterministic analysis engine.
+
+### 3. Start the backend
 
 ```bash
 cd backend
-python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 8001
 ```
 
-On Windows, activate the virtual environment with:
+Backend:
 
-```powershell
-.venv\Scripts\Activate.ps1
-```
+`http://127.0.0.1:8001`
 
-### 3. Configure Environment Variables
+Interactive API documentation:
 
-From the `backend` directory, create your local environment file if `.env.example` exists:
+`http://127.0.0.1:8001/docs`
 
-```bash
-cp .env.example .env
-```
-
-Open `backend/.env` and configure the variables supported by your backend.
-
-For example:
-
-```dotenv
-GEMINI_API_KEY=
-PORT=8000
-HOST=127.0.0.1
-ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
-```
-
-- Leave `GEMINI_API_KEY` empty to use deterministic analysis without Gemini, if supported by your current configuration.
-- Add your own Gemini API key if you want to enable AI-assisted reasoning.
-- Never commit your real `.env` file or API keys to GitHub.
-- Use the variable names expected by your actual backend configuration. If the project does not read a particular variable, adding it to `.env` alone will not configure that setting.
-
-Return to the project root before starting the frontend:
-
-```bash
-cd ..
-```
-
-### 4. Start the Backend
-
-Open a terminal in the `backend` directory and activate its virtual environment:
-
-```bash
-cd /Users/apple/Downloads/whyrus/backend
-source .venv/bin/activate
-uvicorn main:app --reload --host 127.0.0.1 --port 8000
-```
-
-If you cloned the project into another location, replace the example path with your actual project path.
-
-The backend should now be available at:
-
-- API base: `http://127.0.0.1:8000`
-- Health endpoint: `http://127.0.0.1:8000/api/health`
-- Interactive API documentation, if enabled: `http://127.0.0.1:8000/docs`
-
-Keep this terminal open while using the application.
-
-### 5. Start the Frontend
+### 4. Set up the frontend
 
 Open a second terminal:
 
 ```bash
-cd /Users/apple/Downloads/whyrus/frontend
+cd ~/Downloads/whyrus/frontend
 npm install
 npm run dev
 ```
 
-If your project is stored elsewhere, update the path accordingly.
-
-Open the local URL printed by Vite. With the default configuration, it should be:
+Frontend:
 
 `http://localhost:5173`
 
-The Vite development server proxies `/api` requests to the backend at `http://127.0.0.1:8000`.
-
-Keep both backend and frontend terminals running.
+The local frontend API configuration defaults to `http://127.0.0.1:8001`.
 
 ## API Endpoints
 
-The application provides the following API routes:
-
-| Endpoint | Method | Purpose |
+| Method | Endpoint | Description |
 |---|---|---|
-| `/api/health` | GET | Check backend health and configuration status |
-| `/api/presets` | GET | Retrieve available analysis presets |
-| `/api/redact-preview` | POST | Preview sensitive-data redaction |
-| `/api/analyze` | POST | Analyze incident logs and return a structured report |
+| GET | `/api/health` | Backend and AI configuration status |
+| GET | `/api/presets` | Returns available sample incident data |
+| POST | `/api/analyze` | Analyzes submitted incident logs |
+| POST | `/api/redact-preview` | Previews secret redaction |
 
-Request fields and response formats should be checked against the current FastAPI implementation and its API documentation.
+### Incident Analysis Request
 
-## Testing
+`POST /api/analyze`
 
-### Run Backend Tests
+Example request:
 
-Activate the backend virtual environment:
+```json
+{
+  "raw_logs": "2026-11-14 10:00:01 ERROR payment-service: Database connection timeout",
+  "service_context": "Production payment service",
+  "git_diff": "",
+  "use_ai": true
+}
+```
+
+The analysis response includes:
+
+- Incident overview and severity
+- Structured event timeline
+- Ranked root-cause hypotheses
+- Supporting and contradictory evidence
+- Recommended actions and verification checks
+- Git diff findings, when supplied
+- Redaction information
+- Analysis engine details
+
+## Running Tests
+
+Activate the backend virtual environment and run:
 
 ```bash
-cd /Users/apple/Downloads/whyrus/backend
+cd backend
 source .venv/bin/activate
 python -m unittest discover -s tests -v
 ```
 
-This command discovers and runs the tests in the backend's `tests` directory.
+The test suite covers:
 
-### Check Backend Health
+- Deterministic incident analysis
+- Gemini fallback behavior
+- Log parsing and stack trace folding
+- Missing timestamp handling
+- Database failure scenarios
+- JVM memory exhaustion
+- JWT expiry and clock skew
+- Comprehensive secret redaction
+- API request validation
+- CORS preflight handling
+- Health, presets, and redaction endpoints
 
-With the backend running, execute:
+**Latest verified result: 14 tests passed.**
 
-```bash
-curl http://127.0.0.1:8000/api/health
-```
+## Production Deployment
 
-A healthy response should contain a status indicating that the service is running.
+WhyRus uses a React/Vite frontend and a FastAPI backend.
 
-### Check Through the Frontend Proxy
+A single-project Vercel deployment can use **Vercel Services**, subject to account availability.
 
-With both servers running, execute:
+The intended routing is:
 
-```bash
-curl http://localhost:5173/api/health
-```
+| Path | Service |
+|---|---|
+| `/` and frontend routes | React/Vite frontend |
+| `/api/*` | FastAPI backend |
 
-This checks whether the Vite development server can forward API requests to the backend.
+The deployment requires a root-level `vercel.json` defining both services and their routing rules.
 
-If this request fails, check that:
+Configure `GEMINI_API_KEY` as a server-side environment variable in Vercel. Never expose backend credentials through frontend environment variables.
 
-1. The backend is running on port `8000`.
-2. The Vite proxy points to `http://127.0.0.1:8000`.
-3. Both processes are running without startup errors.
-4. The browser is using `http://localhost:5173`.
+The production frontend should use same-origin `/api` requests rather than a localhost API URL.
+
+Documentation: [Vercel Services](https://vercel.com/docs/services)
 
 ## Security and Privacy
 
-Incident logs can contain sensitive operational information. Follow these precautions:
+- Keep API keys and credentials in environment variables.
+- Never commit `.env` files.
+- Backend redaction processes submitted logs and optional Git diffs before analysis.
+- When Gemini is enabled, redacted analysis inputs may be sent to Google's Gemini service.
+- Review sensitive production data before submitting it.
+- Treat generated root-cause hypotheses as findings to verify, not guaranteed diagnoses.
 
-- Never upload production secrets, passwords, access tokens, or private keys unnecessarily.
-- Review redaction output before sharing logs or reports.
-- Keep `.env` files and API credentials out of version control.
-- Restrict access to incident reports containing internal system details.
-- Avoid sending confidential logs to external AI services unless your organization's policies permit it.
-- Validate and sanitize all user-provided inputs.
-- Use appropriate authentication, authorization, and network restrictions before deploying the application publicly.
+## Design Principles
 
-Redaction can miss unfamiliar secret formats. It should not be treated as a complete security boundary.
+**Evidence first:** Findings should be traceable to actual incident evidence.
 
-## Limitations
+**Transparency:** Confidence levels and missing evidence should be visible.
 
-- Log analysis depends on the quality, completeness, and format of the supplied data.
-- Missing timestamps or inconsistent log formats can affect event ordering.
-- A ranked hypothesis is not proof of causation.
-- Similar symptoms may have several possible causes.
-- Git diff correlation indicates a possible relationship, not definitive causation.
-- AI-generated reasoning can be inaccurate or incomplete.
-- Redaction may not catch every sensitive value.
-- Results should be validated using monitoring data, traces, metrics, code, and infrastructure state where available.
+**Practical guidance:** Recommendations should help engineers decide what to investigate next.
 
-## Future Improvements
+**Resilience:** Deterministic analysis remains available without external AI services.
 
-Potential areas for further development include:
+---
 
-- Additional log formats and language-specific parsing.
-- Better correlation across services and distributed traces.
-- More detailed evidence-to-hypothesis explanations.
-- Improved detection of recurring incidents.
-- Expanded regression and integration tests.
-- Exportable reports and incident-history management.
-- Authentication and role-based access for team deployments.
-
-These are potential enhancements, not necessarily features currently implemented.
-
-## Contributing
-
-Contributions, bug reports, and suggestions are welcome.
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Make a focused change.
-4. Add or update tests where appropriate.
-5. Submit a pull request describing the change and how it was tested.
-
-## License
-
-Check the repository for a `LICENSE` file before redistributing or reusing this project. If no license is present, do not assume that the code is open-source licensed.
-
----_
-
-**Whyrus — Understand the failure. Find the reason.**
+**WhyRus — Evidence-grounded incident analysis.**
